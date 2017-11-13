@@ -4,6 +4,10 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 import { AppComponent } from './app.component';
 
+import { LoginComponent } from "./views/login/login.component";
+import { DashboardComponent } from "./views/dashboard/dashboard.component";
+
+
 // Import containers
 import {
   FullLayoutComponent,
@@ -64,6 +68,11 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
+import { FormsModule } from "@angular/forms";
+import { HttpModule } from "@angular/http";
+import {AuthGuard} from "./_guard/auth.guard";
+import {UserService} from "./_services/user.service";
+import {AuthenticationService} from "./_services/authentication.service";
 
 @NgModule({
   imports: [
@@ -71,18 +80,26 @@ import { ChartsModule } from 'ng2-charts/ng2-charts';
     AppRoutingModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    FormsModule,
+    HttpModule
   ],
   declarations: [
     AppComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
-    ...APP_DIRECTIVES
+    ...APP_DIRECTIVES,
+    LoginComponent,
+    DashboardComponent
   ],
   providers: [{
     provide: LocationStrategy,
-    useClass: HashLocationStrategy
-  }],
+    useClass: HashLocationStrategy,
+  },
+    AuthGuard,
+    AuthenticationService,
+    UserService,
+  ],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
