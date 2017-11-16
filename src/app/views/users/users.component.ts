@@ -22,8 +22,7 @@ export class UsersComponent implements OnInit{
   nameSort : string;
   validateSort: string;
   bannedSort: string;
-
-
+  filteredString:string = '';
 
   constructor(private userService: UserService) { }
 
@@ -66,6 +65,18 @@ export class UsersComponent implements OnInit{
       });
   }
 
+  private filterUsersByName(newFilter:string ){
+    this.params.name = newFilter;
+    console.log(newFilter);
+    this.userService.getUsersWithParams(this.params)
+      .subscribe(response => {
+        console.log(response.docs);
+
+        this.users = response.docs as User[];
+        this.bindPage(response);
+      });
+
+  }
   private checkOrder(filter): string{
     switch(filter){
       case 'name':
@@ -104,19 +115,22 @@ export class UsersComponent implements OnInit{
   private userIsValidated(user:User): Boolean{
     if(user.images.length > 0){
       for( var i = 0; i<=user.images.length-1; i++){
-        if(user.images[i].validated != null){
-          if(!user.images[i].validated) {
-            return false
-          }
-        }
-        if(user.about != null){
-          if(!user.about.validated){
-            return false
+        if(user.images[i].validated == null){
+          return false;
+        }else{
+          if(!user.images[i].validated){
+            return false;
           }
         }
       }
     }
-    return true
+    if(user.about != null) {
+      if (!user.about_validated) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   private decodeToAscii(codifiedparams: string):string{
@@ -128,6 +142,6 @@ export class UsersComponent implements OnInit{
     return codifiedparams
   }
   private showUser(user: User){
-    console.log(user)
+    //console.log(user)
   }
 }

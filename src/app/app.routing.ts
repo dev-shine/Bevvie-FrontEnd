@@ -39,7 +39,7 @@ export const routes: Routes = [
         loadChildren: './views/reports/reports.module#ReportsModule'
       },
       {
-        path: 'profile',
+        path: 'users/detail/:userId',
         loadChildren: './views/profile/profile.module#ProfileModule',
       }
     ]

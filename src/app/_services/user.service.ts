@@ -37,7 +37,7 @@ export class UserService {
       .map((response: Response) => response.json());
   }
 
-  getUserById(userId: string): Observable<User[]> {
+  getUserById(userId: string): Observable<User> {
     // get usersfrom api by id
     return this.http.get(this.authenticationService.apiBaseUrl+'users/'+userId, this.getHeader())
       .map((response: Response) => response.json());
@@ -49,9 +49,18 @@ export class UserService {
       .map((response: Response) => response.json());
   }
 
-  postUsersValidate(userId: string, params: Object): Observable<User[]>{
+  postUsersValidate(userId: string, params: any): Observable<User>{
     // update validation field for a user
     return this.http.post(this.authenticationService.apiBaseUrl+'users/'+userId+'/validate', params, this.getHeader())
       .map((response: Response) => response.json());
   }
+  postUsersBan(userId: string):Observable<User>{
+    return this.http.post(this.authenticationService.apiBaseUrl+'users/'+userId+'/ban', {id: userId}, this.getHeader())
+      .map((response: Response) => response.json());
+  }
+  postUsersUpdate(userId: string, params: any):Observable<User>{
+    return this.http.post(this.authenticationService.apiBaseUrl+'users/'+userId, params, this.getHeader())
+      .map((response: Response) => response.json());
+  }
+
 }

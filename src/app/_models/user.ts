@@ -1,9 +1,13 @@
+import * as moment from "moment";
+import _date = moment.unitOfTime._date;
+
 export class User {
-  id:string;
+  _id:string;
   name: string;
   age: number;
   country: string;
   about: userAbout;
+  birthday: Date;
   languages: string[];
   studies:string;
   images: userImage[];
@@ -14,8 +18,9 @@ export class User {
 }
 
 export class userImage{
-  validated : boolean;
+  _id: string;
+  validated? : boolean;
 }
 export class userAbout{
-  validated : boolean;
+  validated? : boolean;
 }

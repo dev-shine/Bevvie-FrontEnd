@@ -45,7 +45,7 @@ UsersRoutingModule = __decorate([
 /***/ "../../../../../src/app/views/users/users.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"animated fadeIn\">\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <div class=\"card\">\n        <div class=\"card-header\">\n          <i class=\"fa fa-align-justify\"></i> Users\n        </div>\n        <div class=\"card-body\">\n          <table class=\"table\">\n            <thead>\n            <tr>\n              <th>Picture</th>\n              <th (click)=\"getPageWithSort('name')\">Name</th>\n              <th (click)=\"getPageWithSort('validated')\">Validated</th>\n              <th (click)=\"getPageWithSort('banned')\">Banned</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr *ngFor=\"let user of users\" [routerLink]=\"profile\">\n              <td>\n                <div class=\"avatar\">\n                  <img src=\"{{user.images[0].s3.url}}\" *ngIf=\"user.images.length > 0\" class=\"img-avatar\" alt=\"admin@bootstrapmaster.com\" src=\"{{user.images[0].s3.url}}\">\n                  <img src=\"../../../assets/img/logo-symbol.png\" *ngIf=\"user.images.length == 0\" class=\"img-avatar\" alt=\"admin@bootstrapmaster.com\" src=\"../../../assets/img/logo-symbol.png\">\n\n                </div>\n              </td>\n              <td>{{user.name}}</td>\n              <td>\n                <span class=\"badge\" [ngClass]=\"userIsValidated(user) ? 'badge-success': 'badge-danger'\">{{userIsValidated(user) ? 'Validated':'Pending'}}</span>\n              </td>\n              <td>\n                <span class=\"badge\" [ngClass]=\"user.banned ? 'badge-danger': 'badge-info'\">{{user.banned ? 'Banned':'No banned'}}</span>\n              </td>\n            </tr>\n            </tbody>\n          </table>\n          <ul class=\"pagination\">\n            <li class=\"page-item\" *ngFor=\"let n of paginator\" [ngClass]=\" n == currentPage ? 'active' : ''\">\n              <a class=\"page-link\" *ngIf=\"paginator.indexOf(0) == 1\" (click)=\"getPage(paginator.indexOf(0)-1)\">Prev</a>\n              <a class=\"page-link\" (click)=\"getPage(n)\">{{n}}</a>\n              <a class=\"page-link\" *ngIf=\"paginator.indexOf(paginator.length-1) == numberPages\" (click)=\"getPage(paginator.indexOf(0)-1)\">Prev</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"animated fadeIn\">\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <div class=\"card\">\n        <div class=\"card-header\">\n          <i class=\"fa fa-align-justify\"></i> Users\n        </div>\n        <div class=\"card-body\">\n          <div class=\"form-group\">\n            <label class=\"col-form-label\">Filter by</label>\n            <div class=\"input-group\">\n              <span class=\"input-group-addon\">Name</span>\n              <input #filteredName type=\"text\" id=\"username\" name=\"username\" (change)=\"filterUsersByName(filteredName.value)\" class=\"form-control\">\n              <span class=\"input-group-addon\"><i class=\"fa fa-search\"></i></span>\n            </div>\n          </div>\n\n\n\n          <table class=\"table\">\n            <thead>\n            <tr>\n              <th>Picture</th>\n              <th (click)=\"getPageWithSort('name')\">Name</th>\n              <th (click)=\"getPageWithSort('validated')\">Validated</th>\n              <th (click)=\"getPageWithSort('banned')\">Banned</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr *ngFor=\"let user of users\" [routerLink]=\"['/users/detail', user._id]\">\n              <td>\n                <div class=\"avatar\">\n                  <img src=\"{{user.images[0].s3.url}}\" *ngIf=\"user.images.length > 0\" class=\"img-avatar\" alt=\"admin@bootstrapmaster.com\" src=\"{{user.images[0].s3.url}}\">\n                  <img src=\"../../../assets/img/logo-symbol.png\" *ngIf=\"user.images.length == 0\" class=\"img-avatar\" alt=\"admin@bootstrapmaster.com\" src=\"../../../assets/img/logo-symbol.png\">\n                </div>\n              </td>\n              <td>{{user.name}}</td>\n              <td>\n                <span class=\"badge\" [ngClass]=\"userIsValidated(user) ? 'badge-success': 'badge-danger'\">{{userIsValidated(user) ? 'Validated':'Pending'}}</span>\n              </td>\n              <td>\n                <span class=\"badge\" [ngClass]=\"user.banned ? 'badge-danger': 'badge-info'\">{{user.banned ? 'Banned':'No banned'}}</span>\n              </td>\n            </tr>\n            </tbody>\n          </table>\n          <ul class=\"pagination\">\n            <li class=\"page-item\" *ngFor=\"let n of paginator\" [ngClass]=\" n == currentPage ? 'active' : ''\">\n              <a class=\"page-link\" *ngIf=\"paginator.indexOf(0) == 1\" (click)=\"getPage(paginator.indexOf(0)-1)\">Prev</a>\n              <a class=\"page-link\" (click)=\"getPage(n)\">{{n}}</a>\n              <a class=\"page-link\" *ngIf=\"paginator.indexOf(paginator.length-1) == numberPages\" (click)=\"getPage(paginator.indexOf(0)-1)\">Prev</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -80,6 +80,7 @@ var UsersComponent = (function () {
         this.totalUsers = 0;
         this.paginator = [];
         this.params = {};
+        this.filteredString = '';
     }
     UsersComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -110,6 +111,17 @@ var UsersComponent = (function () {
         };
         var codifiedparams = __WEBPACK_IMPORTED_MODULE_2_qs__["stringify"](this.params);
         this.userService.getUsersWithParams(this.decodeToAscii(codifiedparams))
+            .subscribe(function (response) {
+            console.log(response.docs);
+            _this.users = response.docs;
+            _this.bindPage(response);
+        });
+    };
+    UsersComponent.prototype.filterUsersByName = function (newFilter) {
+        var _this = this;
+        this.params.name = newFilter;
+        console.log(newFilter);
+        this.userService.getUsersWithParams(this.params)
             .subscribe(function (response) {
             console.log(response.docs);
             _this.users = response.docs;
@@ -149,16 +161,19 @@ var UsersComponent = (function () {
     UsersComponent.prototype.userIsValidated = function (user) {
         if (user.images.length > 0) {
             for (var i = 0; i <= user.images.length - 1; i++) {
-                if (user.images[i].validated != null) {
+                if (user.images[i].validated == null) {
+                    return false;
+                }
+                else {
                     if (!user.images[i].validated) {
                         return false;
                     }
                 }
-                if (user.about != null) {
-                    if (!user.about.validated) {
-                        return false;
-                    }
-                }
+            }
+        }
+        if (user.about != null) {
+            if (!user.about_validated) {
+                return false;
             }
         }
         return true;
@@ -171,7 +186,7 @@ var UsersComponent = (function () {
         return codifiedparams;
     };
     UsersComponent.prototype.showUser = function (user) {
-        console.log(user);
+        //console.log(user)
     };
     return UsersComponent;
 }());

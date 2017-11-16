@@ -239,6 +239,14 @@ var UserService = (function () {
         return this.http.post(this.authenticationService.apiBaseUrl + 'users/' + userId + '/validate', params, this.getHeader())
             .map(function (response) { return response.json(); });
     };
+    UserService.prototype.postUsersBan = function (userId) {
+        return this.http.post(this.authenticationService.apiBaseUrl + 'users/' + userId + '/ban', { id: userId }, this.getHeader())
+            .map(function (response) { return response.json(); });
+    };
+    UserService.prototype.postUsersUpdate = function (userId, params) {
+        return this.http.post(this.authenticationService.apiBaseUrl + 'users/' + userId, params, this.getHeader())
+            .map(function (response) { return response.json(); });
+    };
     return UserService;
 }());
 UserService = __decorate([
@@ -305,6 +313,7 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__guard_auth_guard__ = __webpack_require__("../../../../../src/app/_guard/auth.guard.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__services_user_service__ = __webpack_require__("../../../../../src/app/_services/user.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__services_authentication_service__ = __webpack_require__("../../../../../src/app/_services/authentication.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -356,6 +365,7 @@ var APP_DIRECTIVES = [
 
 
 
+
 var AppModule = (function () {
     function AppModule() {
     }
@@ -367,6 +377,7 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_9__app_routing__["a" /* AppRoutingModule */],
             __WEBPACK_IMPORTED_MODULE_10_ngx_bootstrap_dropdown__["a" /* BsDropdownModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_18_ngx_bootstrap__["a" /* ModalModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_11_ngx_bootstrap_tabs__["a" /* TabsModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_12_ng2_charts_ng2_charts__["ChartsModule"],
             __WEBPACK_IMPORTED_MODULE_13__angular_forms__["a" /* FormsModule */],
@@ -384,7 +395,7 @@ AppModule = __decorate([
             },
             __WEBPACK_IMPORTED_MODULE_15__guard_auth_guard__["a" /* AuthGuard */],
             __WEBPACK_IMPORTED_MODULE_17__services_authentication_service__["a" /* AuthenticationService */],
-            __WEBPACK_IMPORTED_MODULE_16__services_user_service__["a" /* UserService */],
+            __WEBPACK_IMPORTED_MODULE_16__services_user_service__["a" /* UserService */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */]]
     })
@@ -444,7 +455,7 @@ var routes = [
                 loadChildren: './views/reports/reports.module#ReportsModule'
             },
             {
-                path: 'profile',
+                path: 'users/detail/:userId',
                 loadChildren: './views/profile/profile.module#ProfileModule',
             }
         ]

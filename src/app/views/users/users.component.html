@@ -6,6 +6,17 @@
           <i class="fa fa-align-justify"></i> Users
         </div>
         <div class="card-body">
+          <div class="form-group">
+            <label class="col-form-label">Filter by</label>
+            <div class="input-group">
+              <span class="input-group-addon">Name</span>
+              <input #filteredName type="text" id="username" name="username" (change)="filterUsersByName(filteredName.value)" class="form-control">
+              <span class="input-group-addon"><i class="fa fa-search"></i></span>
+            </div>
+          </div>
+
+
+
           <table class="table">
             <thead>
             <tr>
@@ -16,12 +27,11 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let user of users" [routerLink]="profile">
+            <tr *ngFor="let user of users" [routerLink]="['/users/detail', user._id]">
               <td>
                 <div class="avatar">
                   <img src="{{user.images[0].s3.url}}" *ngIf="user.images.length > 0" class="img-avatar" alt="admin@bootstrapmaster.com" src="{{user.images[0].s3.url}}">
                   <img src="../../../assets/img/logo-symbol.png" *ngIf="user.images.length == 0" class="img-avatar" alt="admin@bootstrapmaster.com" src="../../../assets/img/logo-symbol.png">
-
                 </div>
               </td>
               <td>{{user.name}}</td>

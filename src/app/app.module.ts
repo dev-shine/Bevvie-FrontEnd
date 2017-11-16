@@ -72,12 +72,14 @@ import { HttpModule } from "@angular/http";
 import { AuthGuard } from "./_guard/auth.guard";
 import { UserService } from "./_services/user.service";
 import { AuthenticationService } from "./_services/authentication.service";
+import { ModalModule } from "ngx-bootstrap";
 
 @NgModule({
   imports: [
     BrowserModule,
     AppRoutingModule,
     BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
     TabsModule.forRoot(),
     ChartsModule,
     FormsModule,
@@ -97,7 +99,7 @@ import { AuthenticationService } from "./_services/authentication.service";
   },
     AuthGuard,
     AuthenticationService,
-    UserService,
+    UserService
   ],
   bootstrap: [ AppComponent ]
 })

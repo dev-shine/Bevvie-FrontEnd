@@ -1,3 +1,102 @@
-<div class="animated fadeIn">
-  Profile!
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h2>{{user.name.toUpperCase()}} profile</h2>
+      </div>
+      <div class="card-body">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="textarea-input">Images</label>
+              <div class="col-sm-9 col-md-3" *ngFor="let image of user.images">
+                <div class="card">
+                  <div class="card-body">
+                    <img src="{{image.s3.url}}" style="width: 100%;">
+                  </div>
+                  <div class="card-footer" *ngIf="image.validated == null">
+                    <button type="button" class="btn btn-sm btn-success" style="color: #fff;" (click)="openModal(primaryModal, true, image)" ><i class="fa fa-check" style="color: #fff;"></i> Validate</button>
+                    <button type="button" class="btn btn-sm btn-danger" (click)="openModal(primaryModal, false, image)" ><i class="fa fa-ban"></i> Reject</button>
+                  </div>
+                  <div class="card-footer" *ngIf="image.validated == true">
+                    <span class="badge badge-success">Validated</span>
+                  </div>
+
+                </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="textarea-input">About</label>
+            <div class="col-md-9">
+              <div class="card">
+                <div class="card-body">
+                <textarea id="textarea-input" name="textarea-input" disabled="disabled" rows="9" class="form-control" placeholder="About.." value="{{user.about ? user.about : ''}}"></textarea>
+                </div>
+                <div class="card-footer" *ngIf="user.about_validated == null && (user.about != null)">
+                  <button type="button" class="btn btn-sm btn-success" style="color: #fff;" (click)="openAboutModal(primaryModal, true)" ><i class="fa fa-check" style="color: #fff;"></i> Validate</button>
+                  <button type="button" class="btn btn-sm btn-danger" (click)="openAboutModal(primaryModal, false)" ><i class="fa fa-ban"></i> Reject</button>
+                </div>
+                <div class="card-footer" *ngIf="user.about_validated == true && (user.about != null)">
+                  <span class="badge badge-success">Validated</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="disabled-input">Age</label>
+            <div class="col-md-9">
+              <input type="text" id="disabled-input" name="disabled-input" class="form-control" placeholder="Age" value="{{getAge(user.birthday)}}" disabled>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="disabled-input">Studies</label>
+            <div class="col-md-9">
+              <input type="text" id="disabled-input" name="disabled-input" class="form-control" placeholder="Age" value="{{user.studies}}" disabled>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="multiple-select">Multiple select</label>
+            <div class="col-md-9">
+              <select id="multiple-select" name="multiple-select" class="form-control" size="5" disabled="disabled">
+                <option value="{{i}}" *ngFor="let language of user.languages; let i = index">{{language}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="disabled-input">Country</label>
+            <div class="col-md-9">
+              <input type="text" id="disabled-input" name="disabled-input" class="form-control" placeholder="Age" value="{{user.country}}" disabled>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+      <div class="card-footer">
+        <button type="button" (click)="saveFormData()" class="btn btn-sm btn-primary" style="color: #fff;"><i class="fa fa-floppy-o" style="color: #fff;"></i> Save Changes</button>
+        <button type="button" (click)="changeBanState()"class="btn btn-sm "[ngClass]=" user.banned ? 'btn-warning':'btn-danger'" ><i class="fa fa-ban"></i> {{user.banned ? 'Unban this user':'Ban this user'}}</button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<ng-template #primaryModal>
+  <div  tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-primary" role="document" style="margin: 0 !important;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Confirm {{validateAction ? 'Validate': 'Reject'}} Action</h4>
+          <button type="button" class="close" (click)="cancelModalAction()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Do you want {{validateAction ? 'Validate': 'Reject'}} this element?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="cancelModalAction()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="confirmModalAction(validateAction,modalForAbout)">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
