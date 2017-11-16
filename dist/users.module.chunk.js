@@ -94,7 +94,8 @@ var UsersComponent = (function () {
     UsersComponent.prototype.getPage = function (page) {
         var _this = this;
         this.params.page = page;
-        this.userService.getUsersWithParams(__WEBPACK_IMPORTED_MODULE_2_qs__["stringify"](this.params))
+        var codifiedparams = __WEBPACK_IMPORTED_MODULE_2_qs__["stringify"](this.params);
+        this.userService.getUsersWithParams(this.decodeToAscii(codifiedparams))
             .subscribe(function (response) {
             console.log(response.docs);
             _this.users = response.docs;
@@ -108,8 +109,7 @@ var UsersComponent = (function () {
             'order': this.checkOrder(filter)
         };
         var codifiedparams = __WEBPACK_IMPORTED_MODULE_2_qs__["stringify"](this.params);
-        debugger;
-        this.userService.getUsersWithParams(codifiedparams)
+        this.userService.getUsersWithParams(this.decodeToAscii(codifiedparams))
             .subscribe(function (response) {
             console.log(response.docs);
             _this.users = response.docs;
@@ -162,6 +162,13 @@ var UsersComponent = (function () {
             }
         }
         return true;
+    };
+    UsersComponent.prototype.decodeToAscii = function (codifiedparams) {
+        while (codifiedparams.split('%5B').length > 1 && codifiedparams.split('%5D').length > 1) {
+            codifiedparams = codifiedparams.replace('%5B', '[');
+            codifiedparams = codifiedparams.replace('%5D', ']');
+        }
+        return codifiedparams;
     };
     UsersComponent.prototype.showUser = function (user) {
         console.log(user);

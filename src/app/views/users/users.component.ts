@@ -40,7 +40,9 @@ export class UsersComponent implements OnInit{
 
   private getPage(page:number){
     this.params.page = page;
-    this.userService.getUsersWithParams(qs.stringify(this.params))
+    var codifiedparams = qs.stringify(this.params);
+
+    this.userService.getUsersWithParams(this.decodeToAscii(codifiedparams))
       .subscribe(response => {
         console.log(response.docs);
 
@@ -53,9 +55,9 @@ export class UsersComponent implements OnInit{
       'field': filter,
       'order': this.checkOrder(filter)
     };
-    let codifiedparams = qs.stringify(this.params);
-    debugger
-    this.userService.getUsersWithParams(codifiedparams)
+    var codifiedparams = qs.stringify(this.params);
+
+    this.userService.getUsersWithParams(this.decodeToAscii(codifiedparams))
       .subscribe(response => {
         console.log(response.docs);
 
@@ -117,6 +119,14 @@ export class UsersComponent implements OnInit{
     return true
   }
 
+  private decodeToAscii(codifiedparams: string):string{
+    while(codifiedparams.split('%5B').length > 1 && codifiedparams.split('%5D').length > 1) {
+      codifiedparams = codifiedparams.replace('%5B', '[');
+      codifiedparams = codifiedparams.replace('%5D', ']');
+    }
+
+    return codifiedparams
+  }
   private showUser(user: User){
     console.log(user)
   }
