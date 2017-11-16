@@ -1,19 +1,43 @@
 webpackJsonp(["main"],{
 
 /***/ "../../../../../src/$$_gendir lazy recursive":
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-function webpackEmptyAsyncContext(req) {
-	// Here Promise.resolve().then() is used instead of new Promise() to prevent
-	// uncatched exception popping up in devtools
-	return Promise.resolve().then(function() {
-		throw new Error("Cannot find module '" + req + "'.");
+var map = {
+	"./views/dashboard/dashboard.module": [
+		"../../../../../src/app/views/dashboard/dashboard.module.ts",
+		"dashboard.module"
+	],
+	"./views/profile/profile.module": [
+		"../../../../../src/app/views/profile/profile.module.ts",
+		"profile.module"
+	],
+	"./views/reports/reports.module": [
+		"../../../../../src/app/views/reports/reports.module.ts",
+		"reports.module"
+	],
+	"./views/users/users.module": [
+		"../../../../../src/app/views/users/users.module.ts",
+		"users.module"
+	],
+	"./views/venues/venues.module": [
+		"../../../../../src/app/views/venues/venues.module.ts",
+		"venues.module"
+	]
+};
+function webpackAsyncContext(req) {
+	var ids = map[req];
+	if(!ids)
+		return Promise.reject(new Error("Cannot find module '" + req + "'."));
+	return __webpack_require__.e(ids[1]).then(function() {
+		return __webpack_require__(ids[0]);
 	});
-}
-webpackEmptyAsyncContext.keys = function() { return []; };
-webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
-module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
+};
+webpackAsyncContext.keys = function webpackAsyncContextKeys() {
+	return Object.keys(map);
+};
+webpackAsyncContext.id = "../../../../../src/$$_gendir lazy recursive";
+module.exports = webpackAsyncContext;
 
 /***/ }),
 
@@ -67,13 +91,19 @@ var _a;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return navigation; });
 var navigation = [
     {
-        name: 'Dashboard',
-        url: '/dashboard',
-        icon: 'icon-speedometer',
-        badge: {
-            variant: 'info',
-            text: 'NEW'
-        }
+        name: 'Venues',
+        url: '/venues',
+        icon: 'icon-map',
+    },
+    {
+        name: 'Users',
+        url: '/users',
+        icon: 'icon-user',
+    },
+    {
+        name: 'Reports',
+        url: '/reports',
+        icon: 'icon-flag',
     }
 ];
 //# sourceMappingURL=_nav.js.map
@@ -180,34 +210,33 @@ var UserService = (function () {
     UserService.prototype.getHeader = function () {
         // add authorization header with jwt token
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
-        return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: null });
     };
     UserService.prototype.getUsers = function () {
         // get users from api
-        return this.http.get('users', this.getHeader())
+        return this.http.get(this.authenticationService.apiBaseUrl + 'users', this.getHeader())
+            .map(function (response) { return response.json(); });
+    };
+    UserService.prototype.getUsersWithParams = function (params) {
+        // get users from api with offset
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: params });
+        return this.http.get(this.authenticationService.apiBaseUrl + 'users', options)
             .map(function (response) { return response.json(); });
     };
     UserService.prototype.getUserById = function (userId) {
-        // get users from api
-        return this.http.get('users/' + userId, this.getHeader())
+        // get usersfrom api by id
+        return this.http.get(this.authenticationService.apiBaseUrl + 'users/' + userId, this.getHeader())
             .map(function (response) { return response.json(); });
     };
     UserService.prototype.deleteUser = function (userId) {
-        return this.http.delete('users/' + userId, this.getHeader())
+        // delete users from api by id
+        return this.http.delete(this.authenticationService.apiBaseUrl + 'users/' + userId, this.getHeader())
             .map(function (response) { return response.json(); });
     };
     UserService.prototype.postUsersValidate = function (userId, params) {
-        return this.http.post('users/' + userId + '/validate', params, this.getHeader())
-            .map(function (response) { return response.json(); });
-    };
-    UserService.prototype.getAvenues = function () {
-        // get avenues from api
-        return this.http.get('venues', this.getHeader())
-            .map(function (response) { return response.json(); });
-    };
-    UserService.prototype.getReports = function () {
-        // get reports from api
-        return this.http.get('reports', this.getHeader())
+        // update validation field for a user
+        return this.http.post(this.authenticationService.apiBaseUrl + 'users/' + userId + '/validate', params, this.getHeader())
             .map(function (response) { return response.json(); });
     };
     return UserService;
@@ -373,8 +402,8 @@ AppModule = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppRoutingModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__views_login_login_component__ = __webpack_require__("../../../../../src/app/views/login/login.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_dashboard_dashboard_component__ = __webpack_require__("../../../../../src/app/views/dashboard/dashboard.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__containers__ = __webpack_require__("../../../../../src/app/containers/index.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_login_login_component__ = __webpack_require__("../../../../../src/app/views/login/login.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__ = __webpack_require__("../../../../../src/app/_guard/auth.guard.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -384,12 +413,42 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 
 
+// Import Containers
 
 
 
 var routes = [
-    { path: 'login', component: __WEBPACK_IMPORTED_MODULE_2__views_login_login_component__["a" /* LoginComponent */] },
-    { path: '', component: __WEBPACK_IMPORTED_MODULE_3__views_dashboard_dashboard_component__["a" /* DashboardComponent */], canActivate: [__WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__["a" /* AuthGuard */]] },
+    { path: 'login', component: __WEBPACK_IMPORTED_MODULE_3__views_login_login_component__["a" /* LoginComponent */] },
+    {
+        path: '',
+        component: __WEBPACK_IMPORTED_MODULE_2__containers__["a" /* FullLayoutComponent */],
+        canActivate: [__WEBPACK_IMPORTED_MODULE_4__guard_auth_guard__["a" /* AuthGuard */]],
+        data: {
+            title: 'Home'
+        },
+        children: [
+            {
+                path: 'dashboard',
+                loadChildren: './views/dashboard/dashboard.module#DashboardModule'
+            },
+            {
+                path: 'venues',
+                loadChildren: './views/venues/venues.module#VenuesModule'
+            },
+            {
+                path: 'users',
+                loadChildren: './views/users/users.module#UsersModule'
+            },
+            {
+                path: 'reports',
+                loadChildren: './views/reports/reports.module#ReportsModule'
+            },
+            {
+                path: 'profile',
+                loadChildren: './views/profile/profile.module#ProfileModule',
+            }
+        ]
+    },
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
@@ -512,7 +571,7 @@ var AppBreadcrumbsComponent = (function () {
 AppBreadcrumbsComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-breadcrumbs',
-        template: "\n  <ng-template ngFor let-breadcrumb [ngForOf]=\"breadcrumbs\" let-last = last>\n    <li class=\"breadcrumb-item\"\n        *ngIf=\"breadcrumb.label.title&&breadcrumb.url.substring(breadcrumb.url.length-1) == '/'||breadcrumb.label.title&&last\"\n        [ngClass]=\"{active: last}\">\n      <a *ngIf=\"!last\" [routerLink]=\"breadcrumb.url\">{{breadcrumb.label.title}}</a>\n      <span *ngIf=\"last\" [routerLink]=\"breadcrumb.url\">{{breadcrumb.label.title}}</span>\n    </li>\n  </ng-template>"
+        template: "<!--\n  <ng-template ngFor let-breadcrumb [ngForOf]=\"breadcrumbs\" let-last = last>\n    <li class=\"breadcrumb-item\"\n        *ngIf=\"breadcrumb.label.title&&breadcrumb.url.substring(breadcrumb.url.length-1) == '/'||breadcrumb.label.title&&last\"\n        [ngClass]=\"{active: last}\">\n      <a *ngIf=\"!last\" [routerLink]=\"breadcrumb.url\">{{breadcrumb.label.title}}</a>\n      <span *ngIf=\"last\" [routerLink]=\"breadcrumb.url\">{{breadcrumb.label.title}}</span>\n    </li>\n  </ng-template>-->"
     }),
     __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _b || Object])
 ], AppBreadcrumbsComponent);
@@ -536,7 +595,7 @@ var _a, _b;
 /***/ "../../../../../src/app/components/app-footer/app-footer.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<footer class=\"app-footer\">\n  <span><a href=\"http://coreui.io\">CoreUI</a> &copy; 2017 creativeLabs.</span>\n  <span class=\"ml-auto\">Powered by <a href=\"http://coreui.io\">CoreUI</a></span>\n</footer>\n"
+module.exports = "<footer class=\"app-footer\">\n  <span><a href=\"#\">Bevvie</a> &copy; 2017.</span>\n</footer>\n"
 
 /***/ }),
 
@@ -583,7 +642,7 @@ AppFooterComponent = __decorate([
 /***/ "../../../../../src/app/components/app-header/app-header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"app-header navbar\">\n  <button class=\"navbar-toggler d-lg-none\" type=\"button\" appMobileSidebarToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <a class=\"navbar-brand\" href=\"#\"></a>\n  <button class=\"navbar-toggler d-md-down-none mr-auto\" type=\"button\" appSidebarToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <button class=\"navbar-toggler d-md-down-none\" type=\"button\" appAsideMenuToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n</header>\n"
+module.exports = "<header class=\"app-header navbar\">\n  <button class=\"navbar-toggler d-lg-none\" type=\"button\" appMobileSidebarToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <a class=\"navbar-brand\" href=\"#\"></a>\n  <button class=\"navbar-toggler d-md-down-none mr-auto\" type=\"button\" appSidebarToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <!--<button class=\"navbar-toggler d-md-down-none\" type=\"button\" appAsideMenuToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>-->\n</header>\n"
 
 /***/ }),
 
@@ -1637,7 +1696,7 @@ var _a;
 /***/ "../../../../../src/app/views/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-6 col-md-offset-3\">\n  <h2>Login</h2>\n  <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\n    <div class=\"form-group\" [ngClass]=\"{ 'has-error': f.submitted && !username.valid }\">\n      <label for=\"username\">Username</label>\n      <input type=\"text\" class=\"form-control\" name=\"username\" [(ngModel)]=\"model.username\" #username=\"ngModel\" required />\n      <div *ngIf=\"f.submitted && !username.valid\" class=\"help-block\">Username is required</div>\n    </div>\n    <div class=\"form-group\" [ngClass]=\"{ 'has-error': f.submitted && !password.valid }\">\n      <label for=\"password\">Password</label>\n      <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"model.password\" #password=\"ngModel\" required />\n      <div *ngIf=\"f.submitted && !password.valid\" class=\"help-block\">Password is required</div>\n    </div>\n    <div class=\"form-group\">\n      <button [disabled]=\"loading\" class=\"btn btn-primary\">Login</button>\n      <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n    </div>\n    <div *ngIf=\"error\" class=\"alert alert-danger\">{{error}}</div>\n  </form>\n</div>\n"
+module.exports = "<div class=\"app flex-row align-items-center\">\n  <div class=\"container\">\n    <div class=\"row justify-content-center\">\n      <div class=\"col-md-8\">\n        <div class=\"card-group\">\n          <div class=\"card p-4\">\n            <div class=\"card-body\">\n              <h1>Login</h1>\n              <p class=\"text-muted\">Sign In to your account</p>\n              <form name=\"form\" (ngSubmit)=\"f.form.valid && login()\" #f=\"ngForm\" novalidate>\n\n                <div class=\"input-group mb-3\" [ngClass]=\"{ 'has-error': f.submitted && !username.valid }\">\n                  <span class=\"input-group-addon\" for=\"username\"><i class=\"icon-user\"></i></span>\n                  <input type=\"text\" class=\"form-control\" name=\"username\" [(ngModel)]=\"model.username\" #username=\"ngModel\" required />\n                  <div *ngIf=\"f.submitted && !username.valid\" class=\"help-block\">Username is required</div>\n                </div>\n                <div class=\"input-group mb-4\" [ngClass]=\"{ 'has-error': f.submitted && !password.valid }\">\n                  <span class=\"input-group-addon\" for=\"password\"><i class=\"icon-lock\"></i></span>\n                  <input type=\"password\" class=\"form-control\" name=\"password\" [(ngModel)]=\"model.password\" #password=\"ngModel\" required />\n                  <div *ngIf=\"f.submitted && !password.valid\" class=\"help-block\">Password is required</div>\n                </div>\n\n                <div class=\"row\">\n                  <div class=\"col-6\">\n                    <button [disabled]=\"loading\" class=\"btn btn-primary px-4\" style=\"color:#fff !important\">Login</button>\n                    <img *ngIf=\"loading\" src=\"data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==\" />\n                  </div>\n                  <div *ngIf=\"error\" class=\"alert alert-danger\">{{error}}</div>\n                </div>\n              </form>\n            </div>\n          </div>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
