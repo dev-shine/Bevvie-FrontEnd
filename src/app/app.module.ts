@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from "./views/login/login.component";
 import { DashboardComponent } from "./views/dashboard/dashboard.component";
 
-
 // Import containers
 import {
   FullLayoutComponent,
@@ -70,9 +69,9 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts/ng2-charts';
 import { FormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
-import {AuthGuard} from "./_guard/auth.guard";
-import {UserService} from "./_services/user.service";
-import {AuthenticationService} from "./_services/authentication.service";
+import { AuthGuard } from "./_guard/auth.guard";
+import { UserService } from "./_services/user.service";
+import { AuthenticationService } from "./_services/authentication.service";
 
 @NgModule({
   imports: [

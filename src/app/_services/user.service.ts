@@ -9,11 +9,10 @@ import { User } from '../_models/user';
 @Injectable()
 export class UserService {
 
-  private getHeader(): RequestOptions{
+  private getHeader(): RequestOptions {
     // add authorization header with jwt token
-    let headers = new Headers({ 'Authorization': 'Bearer ' + this.authenticationService.token });
-    return new RequestOptions({ headers: headers });
-
+    let headers = new Headers({'Authorization': 'Bearer ' + this.authenticationService.token});
+    return new RequestOptions({ headers: headers, params: null});
   }
 
   constructor(
@@ -21,39 +20,38 @@ export class UserService {
     private authenticationService: AuthenticationService) {
   }
 
-  getUsers(): Observable<User[]> {
+  getUsers(): Observable<any> {
     // get users from api
-    return this.http.get('users', this.getHeader())
+    return this.http.get(this.authenticationService.apiBaseUrl+'users', this.getHeader())
+      .map((response: Response) => response.json());
+  }
+
+  getUsersWithParams(params: any): Observable<any> {
+    // get users from api with offset
+
+    let headers = new Headers({'Authorization': 'Bearer ' + this.authenticationService.token});
+
+    let options = new RequestOptions({ headers: headers, params: params });
+
+    return this.http.get(this.authenticationService.apiBaseUrl+'users', options)
       .map((response: Response) => response.json());
   }
 
   getUserById(userId: string): Observable<User[]> {
-    // get users from api
-    return this.http.get('users/'+userId, this.getHeader())
+    // get usersfrom api by id
+    return this.http.get(this.authenticationService.apiBaseUrl+'users/'+userId, this.getHeader())
       .map((response: Response) => response.json());
   }
 
   deleteUser(userId: string ): Observable<User[]> {
-    return this.http.delete('users/'+userId, this.getHeader())
+    // delete users from api by id
+    return this.http.delete(this.authenticationService.apiBaseUrl+'users/'+userId, this.getHeader())
       .map((response: Response) => response.json());
   }
 
   postUsersValidate(userId: string, params: Object): Observable<User[]>{
-    return this.http.post('users/'+userId+'/validate', params, this.getHeader())
+    // update validation field for a user
+    return this.http.post(this.authenticationService.apiBaseUrl+'users/'+userId+'/validate', params, this.getHeader())
       .map((response: Response) => response.json());
   }
-
-  getAvenues(): Observable<User[]> {
-    // get avenues from api
-    return this.http.get('venues', this.getHeader())
-      .map((response: Response) => response.json());
-  }
-
-  getReports(): Observable<User[]> {
-    // get reports from api
-    return this.http.get('reports', this.getHeader())
-      .map((response: Response) => response.json());
-  }
-
-
 }

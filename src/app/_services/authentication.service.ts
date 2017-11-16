@@ -6,8 +6,8 @@ import 'rxjs/add/operator/map'
 @Injectable()
 export class AuthenticationService {
   public token: string;
-  private apiBaseUrl: string = 'http://develapps.hopto.org:82/api/v1/';
-  private apiBaseToken: string = '0948cb8e2637cf5f5b6ea6353733d1fd';
+  public apiBaseUrl: string = 'http://develapps.hopto.org:82/api/v1/';
+  public apiBaseToken: string = '0948cb8e2637cf5f5b6ea6353733d1fd';
 
 
   constructor(private http: Http) {
