@@ -144,6 +144,7 @@ var ProfileComponent = (function () {
             this.user.about_validated = action;
             if (!action) {
                 this.user.about = '';
+                this.validationElements['about'] = '';
             }
             this.modalForAbout = false;
         }

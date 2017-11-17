@@ -1,8 +1,12 @@
-import { Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   templateUrl: 'reports.component.html'
 })
-export class ReportsComponent {
+export class ReportsComponent implements OnInit{
 
+
+  ngOnInit(){
+
+  }
 }

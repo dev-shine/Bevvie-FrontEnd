@@ -13,14 +13,9 @@ export class DashboardComponent implements  OnInit{
 
   users: User[] = [];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
-    // get users from secure api end point
-    this.userService.getUsers()
-      .subscribe(users => {
-        this.users = users;
-      });
   }
 
 }

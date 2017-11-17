@@ -18,10 +18,12 @@ var map = {
 	],
 	"./views/users/users.module": [
 		"../../../../../src/app/views/users/users.module.ts",
+		"common",
 		"users.module"
 	],
 	"./views/venues/venues.module": [
 		"../../../../../src/app/views/venues/venues.module.ts",
+		"common",
 		"venues.module"
 	]
 };
@@ -29,7 +31,7 @@ function webpackAsyncContext(req) {
 	var ids = map[req];
 	if(!ids)
 		return Promise.reject(new Error("Cannot find module '" + req + "'."));
-	return __webpack_require__.e(ids[1]).then(function() {
+	return Promise.all(ids.slice(1).map(__webpack_require__.e)).then(function() {
 		return __webpack_require__(ids[0]);
 	});
 };
@@ -259,6 +261,77 @@ var _a, _b;
 
 /***/ }),
 
+/***/ "../../../../../src/app/_services/venue.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return VenueService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_authentication_service__ = __webpack_require__("../../../../../src/app/_services/authentication.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var VenueService = (function () {
+    function VenueService(http, authenticationService) {
+        this.http = http;
+        this.authenticationService = authenticationService;
+    }
+    VenueService.prototype.getHeader = function () {
+        // add authorization header with jwt token
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'register-token': this.authenticationService.apiBaseToken });
+        return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: null });
+    };
+    VenueService.prototype.getVenues = function () {
+        // get users from api
+        return this.http.get(this.authenticationService.apiBaseUrl + 'venues', this.getHeader())
+            .map(function (response) { return response.json(); });
+    };
+    VenueService.prototype.getVenuesWithParams = function (params) {
+        // get users from api with offset
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'register-token': this.authenticationService.apiBaseToken });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: params });
+        return this.http.get(this.authenticationService.apiBaseUrl + 'venues', options)
+            .map(function (response) { return response.json(); });
+    };
+    VenueService.prototype.getVenueById = function (userId) {
+        // get usersfrom api by id
+        return this.http.get(this.authenticationService.apiBaseUrl + 'venues/' + userId, this.getHeader())
+            .map(function (response) { return response.json(); });
+    };
+    VenueService.prototype.deleteVenue = function (userId) {
+        // delete users from api by id
+        return this.http.delete(this.authenticationService.apiBaseUrl + 'venues/' + userId, this.getHeader())
+            .map(function (response) { return response.json(); });
+    };
+    VenueService.prototype.postVenueUpdate = function (userId, params) {
+        return this.http.post(this.authenticationService.apiBaseUrl + 'venues/' + userId, params, this.getHeader())
+            .map(function (response) { return response.json(); });
+    };
+    return VenueService;
+}());
+VenueService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_authentication_service__["a" /* AuthenticationService */]) === "function" && _b || Object])
+], VenueService);
+
+var _a, _b;
+//# sourceMappingURL=venue.service.js.map
+
+/***/ }),
+
 /***/ "../../../../../src/app/app.component.ts":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -314,6 +387,7 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__services_user_service__ = __webpack_require__("../../../../../src/app/_services/user.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__services_authentication_service__ = __webpack_require__("../../../../../src/app/_services/authentication.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__services_venue_service__ = __webpack_require__("../../../../../src/app/_services/venue.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -366,6 +440,7 @@ var APP_DIRECTIVES = [
 
 
 
+
 var AppModule = (function () {
     function AppModule() {
     }
@@ -395,7 +470,8 @@ AppModule = __decorate([
             },
             __WEBPACK_IMPORTED_MODULE_15__guard_auth_guard__["a" /* AuthGuard */],
             __WEBPACK_IMPORTED_MODULE_17__services_authentication_service__["a" /* AuthenticationService */],
-            __WEBPACK_IMPORTED_MODULE_16__services_user_service__["a" /* UserService */]
+            __WEBPACK_IMPORTED_MODULE_16__services_user_service__["a" /* UserService */],
+            __WEBPACK_IMPORTED_MODULE_19__services_venue_service__["a" /* VenueService */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */]]
     })
@@ -1665,7 +1741,8 @@ module.exports = "<div class=\"animated fadeIn\">\n  Hello World!\n</div>\n"
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return DashboardComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__services_user_service__ = __webpack_require__("../../../../../src/app/_services/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__services_user_service__ = __webpack_require__("../../../../../src/app/_services/user.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1677,18 +1754,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var DashboardComponent = (function () {
-    function DashboardComponent(userService) {
+    function DashboardComponent(userService, router) {
         this.userService = userService;
+        this.router = router;
         this.users = [];
     }
     DashboardComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        // get users from secure api end point
-        this.userService.getUsers()
-            .subscribe(function (users) {
-            _this.users = users;
-        });
     };
     return DashboardComponent;
 }());
@@ -1696,10 +1769,10 @@ DashboardComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         template: __webpack_require__("../../../../../src/app/views/dashboard/dashboard.component.html")
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__services_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__services_user_service__["a" /* UserService */]) === "function" && _a || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2__services_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__services_user_service__["a" /* UserService */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _b || Object])
 ], DashboardComponent);
 
-var _a;
+var _a, _b;
 //# sourceMappingURL=dashboard.component.js.map
 
 /***/ }),

@@ -22,7 +22,6 @@ export class UsersComponent implements OnInit{
   nameSort : string;
   validateSort: string;
   bannedSort: string;
-  filteredString:string = '';
 
   constructor(private userService: UserService) { }
 
@@ -30,7 +29,6 @@ export class UsersComponent implements OnInit{
     // get users from secure api end point
     this.userService.getUsers()
       .subscribe(response => {
-        console.log(response.docs);
 
         this.users = response.docs as User[];
         this.bindPage(response);
@@ -43,7 +41,6 @@ export class UsersComponent implements OnInit{
 
     this.userService.getUsersWithParams(this.decodeToAscii(codifiedparams))
       .subscribe(response => {
-        console.log(response.docs);
 
         this.users = response.docs as User[];
         this.bindPage(response);
@@ -58,7 +55,6 @@ export class UsersComponent implements OnInit{
 
     this.userService.getUsersWithParams(this.decodeToAscii(codifiedparams))
       .subscribe(response => {
-        console.log(response.docs);
 
         this.users = response.docs as User[];
         this.bindPage(response);
@@ -67,10 +63,10 @@ export class UsersComponent implements OnInit{
 
   private filterUsersByName(newFilter:string ){
     this.params.name = newFilter;
-    console.log(newFilter);
+    this.params.page = 1;
+
     this.userService.getUsersWithParams(this.params)
       .subscribe(response => {
-        console.log(response.docs);
 
         this.users = response.docs as User[];
         this.bindPage(response);
@@ -117,17 +113,11 @@ export class UsersComponent implements OnInit{
       for( var i = 0; i<=user.images.length-1; i++){
         if(user.images[i].validated == null){
           return false;
-        }else{
-          if(!user.images[i].validated){
-            return false;
-          }
         }
       }
     }
-    if(user.about != null) {
-      if (!user.about_validated) {
+    if(user.about == null) {
         return false;
-      }
     }
 
     return true;
