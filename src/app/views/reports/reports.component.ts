@@ -41,6 +41,7 @@ export class ReportsComponent implements OnInit{
 
   private getPage(page:number){
     this.params.page = page;
+    this.params.statistics = true;
     var codifiedparams = qs.stringify(this.params);
 
     this.reportService.getReportsWithParams(this.decodeToAscii(codifiedparams))
