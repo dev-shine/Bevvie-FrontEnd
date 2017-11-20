@@ -1,20 +1,21 @@
 export class Venue {
-  id: string;
+  _id: string;
   name: string;
-  image: string;
+  image: venueImage;
   radius: number;
-  location: object;
-  type: string;
-  coordinates: venueCoordinates;
-  latitude: number;
-  longitude: number;
-  schedule: object[];
-  weekday: number;
-  openTime: number;
-  closetime: number;
+  location: venueLocation;
+  schedule: venueSchedule[];
 }
-
-export class venueCoordinates{
-  latitude: number;
-  longitude: number;
+export class venueLocation{
+  coordinates: number[];
+  type:string;
+}
+export class venueSchedule{
+  weekday:number;
+  openTime:Date;
+  closeTime:Date;
+  isClose:boolean;
+}
+export class venueImage{
+  _id: string;
 }

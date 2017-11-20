@@ -36902,7 +36902,7 @@ var BsDropdownState = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__timepicker__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/index.js");
 /* unused harmony reexport TimepickerComponent */
 /* unused harmony reexport TimepickerConfig */
-/* unused harmony reexport TimepickerModule */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_30__timepicker__["a"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__tooltip__ = __webpack_require__("../../../../ngx-bootstrap/tooltip/index.js");
 /* unused harmony reexport TooltipConfig */
 /* unused harmony reexport TooltipContainerComponent */
@@ -40277,7 +40277,7 @@ var TabsetConfig = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__timepicker_config__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.config.js");
 /* unused harmony reexport TimepickerConfig */
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__timepicker_module__ = __webpack_require__("../../../../ngx-bootstrap/timepicker/timepicker.module.js");
-/* unused harmony reexport TimepickerModule */
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_4__timepicker_module__["a"]; });
 
 
 

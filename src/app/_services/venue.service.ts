@@ -38,19 +38,42 @@ export class VenueService {
 
   getVenueById(userId: string): Observable<Venue> {
     // get usersfrom api by id
-    return this.http.get(this.authenticationService.apiBaseUrl+'venues/'+userId, this.getHeader())
+    let headers = new Headers({'Authorization': 'Bearer '+this.authenticationService.token});
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.get(this.authenticationService.apiBaseUrl+'venues/'+userId, options)
       .map((response: Response) => response.json());
   }
 
   deleteVenue(userId: string ): Observable<Venue[]> {
     // delete users from api by id
-    return this.http.delete(this.authenticationService.apiBaseUrl+'venues/'+userId, this.getHeader())
+    let headers = new Headers({'Authorization': 'Bearer '+this.authenticationService.token});
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.delete(this.authenticationService.apiBaseUrl+'venues/'+userId, options)
       .map((response: Response) => response.json());
   }
 
   postVenueUpdate(userId: string, params: any):Observable<Venue>{
-    return this.http.post(this.authenticationService.apiBaseUrl+'venues/'+userId, params, this.getHeader())
+    let headers = new Headers({'Authorization': 'Bearer '+this.authenticationService.token});
+    let options = new RequestOptions({ headers: headers, params: params });
+
+    return this.http.post(this.authenticationService.apiBaseUrl+'venues/'+userId, params, options)
+      .map((response: Response) => response.json());
+  }
+  postNewVenue(params: any):Observable<Venue>{
+    let headers = new Headers({'Authorization': 'Bearer '+this.authenticationService.token});
+    let options = new RequestOptions({ headers: headers, body: params });
+
+    return this.http.post(this.authenticationService.apiBaseUrl+'venues', params, options)
       .map((response: Response) => response.json());
   }
 
+  postNewImage(params:any):Observable<any>{
+    let headers = new Headers({'Authorization': 'Bearer '+this.authenticationService.token});
+    let options = new RequestOptions({ headers: headers, body: params });
+
+    return this.http.post(this.authenticationService.apiBaseUrl+'images', params, options)
+      .map((response: Response) => response.json());
+  }
 }

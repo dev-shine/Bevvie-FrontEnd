@@ -4,6 +4,7 @@
       <div class="card">
         <div class="card-header">
           <i class="fa fa-align-justify"></i> Venues
+          <button type="button" class="btn btn-success" style="float: right;" [routerLink]="['/venues/new']"><i class="fa fa-plus"></i>&nbsp; Add New Venue</button>
         </div>
         <div class="card-body">
           <div class="form-group">
@@ -22,7 +23,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let venue of venues">
+            <tr *ngFor="let venue of venues" [routerLink]="['/venues/detail', venue._id]">
               <td>
                 <div class="avatar">
                   <img src="{{venue.image.s3.url}}" *ngIf="venue.image != null" class="img-avatar" alt="admin@bootstrapmaster.com" src="{{venue.image.s3.url}}">

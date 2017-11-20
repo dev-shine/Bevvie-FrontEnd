@@ -8,6 +8,10 @@ var map = {
 		"../../../../../src/app/views/dashboard/dashboard.module.ts",
 		"dashboard.module"
 	],
+	"./views/new-venue/new-venue.module": [
+		"../../../../../src/app/views/new-venue/new-venue.module.ts",
+		"new-venue.module"
+	],
 	"./views/profile/profile.module": [
 		"../../../../../src/app/views/profile/profile.module.ts",
 		"profile.module"
@@ -20,6 +24,10 @@ var map = {
 		"../../../../../src/app/views/users/users.module.ts",
 		"common",
 		"users.module"
+	],
+	"./views/venues-detail/venue-detail.module": [
+		"../../../../../src/app/views/venues-detail/venue-detail.module.ts",
+		"venue-detail.module"
 	],
 	"./views/venues/venues.module": [
 		"../../../../../src/app/views/venues/venues.module.ts",
@@ -215,39 +223,81 @@ var UserService = (function () {
         return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: null });
     };
     UserService.prototype.getUsers = function () {
+        var _this = this;
         // get users from api
         return this.http.get(this.authenticationService.apiBaseUrl + 'users', this.getHeader())
-            .map(function (response) { return response.json(); });
+            .map(function (response) {
+            if (response.status == 401) {
+                _this.authenticationService.logout();
+            }
+            return response.json();
+        });
     };
     UserService.prototype.getUsersWithParams = function (params) {
         // get users from api with offset
+        var _this = this;
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: params });
         return this.http.get(this.authenticationService.apiBaseUrl + 'users', options)
-            .map(function (response) { return response.json(); });
+            .map(function (response) {
+            if (response.status == 401) {
+                _this.authenticationService.logout();
+            }
+            return response.json();
+        });
     };
     UserService.prototype.getUserById = function (userId) {
+        var _this = this;
         // get usersfrom api by id
         return this.http.get(this.authenticationService.apiBaseUrl + 'users/' + userId, this.getHeader())
-            .map(function (response) { return response.json(); });
+            .map(function (response) {
+            if (response.status == 401) {
+                _this.authenticationService.logout();
+            }
+            return response.json();
+        });
     };
     UserService.prototype.deleteUser = function (userId) {
+        var _this = this;
         // delete users from api by id
         return this.http.delete(this.authenticationService.apiBaseUrl + 'users/' + userId, this.getHeader())
-            .map(function (response) { return response.json(); });
+            .map(function (response) {
+            if (response.status == 401) {
+                _this.authenticationService.logout();
+            }
+            return response.json();
+        });
     };
     UserService.prototype.postUsersValidate = function (userId, params) {
+        var _this = this;
         // update validation field for a user
         return this.http.post(this.authenticationService.apiBaseUrl + 'users/' + userId + '/validate', params, this.getHeader())
-            .map(function (response) { return response.json(); });
+            .map(function (response) {
+            if (response.status == 401) {
+                _this.authenticationService.logout();
+            }
+            return response.json();
+        });
     };
     UserService.prototype.postUsersBan = function (userId) {
+        var _this = this;
         return this.http.post(this.authenticationService.apiBaseUrl + 'users/' + userId + '/ban', { id: userId }, this.getHeader())
-            .map(function (response) { return response.json(); });
+            .map(function (response) {
+            if (response.status == 401) {
+                _this.authenticationService.logout();
+            }
+            return response.json();
+        });
     };
     UserService.prototype.postUsersUpdate = function (userId, params) {
+        var _this = this;
         return this.http.post(this.authenticationService.apiBaseUrl + 'users/' + userId, params, this.getHeader())
-            .map(function (response) { return response.json(); });
+            .map(function (response) {
+            if (response.status == 401) {
+                _this.authenticationService.logout();
+            }
+            return response.json();
+        });
     };
     return UserService;
 }());
@@ -308,16 +358,34 @@ var VenueService = (function () {
     };
     VenueService.prototype.getVenueById = function (userId) {
         // get usersfrom api by id
-        return this.http.get(this.authenticationService.apiBaseUrl + 'venues/' + userId, this.getHeader())
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this.http.get(this.authenticationService.apiBaseUrl + 'venues/' + userId, options)
             .map(function (response) { return response.json(); });
     };
     VenueService.prototype.deleteVenue = function (userId) {
         // delete users from api by id
-        return this.http.delete(this.authenticationService.apiBaseUrl + 'venues/' + userId, this.getHeader())
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers });
+        return this.http.delete(this.authenticationService.apiBaseUrl + 'venues/' + userId, options)
             .map(function (response) { return response.json(); });
     };
     VenueService.prototype.postVenueUpdate = function (userId, params) {
-        return this.http.post(this.authenticationService.apiBaseUrl + 'venues/' + userId, params, this.getHeader())
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: params });
+        return this.http.post(this.authenticationService.apiBaseUrl + 'venues/' + userId, params, options)
+            .map(function (response) { return response.json(); });
+    };
+    VenueService.prototype.postNewVenue = function (params) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, body: params });
+        return this.http.post(this.authenticationService.apiBaseUrl + 'venues', params, options)
+            .map(function (response) { return response.json(); });
+    };
+    VenueService.prototype.postNewImage = function (params) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: params });
+        return this.http.post(this.authenticationService.apiBaseUrl + 'images', params, options)
             .map(function (response) { return response.json(); });
     };
     return VenueService;
@@ -454,6 +522,7 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_10_ngx_bootstrap_dropdown__["a" /* BsDropdownModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_18_ngx_bootstrap__["a" /* ModalModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_11_ngx_bootstrap_tabs__["a" /* TabsModule */].forRoot(),
+            __WEBPACK_IMPORTED_MODULE_18_ngx_bootstrap__["b" /* TimepickerModule */].forRoot(),
             __WEBPACK_IMPORTED_MODULE_12_ng2_charts_ng2_charts__["ChartsModule"],
             __WEBPACK_IMPORTED_MODULE_13__angular_forms__["a" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_14__angular_http__["c" /* HttpModule */]
@@ -533,6 +602,14 @@ var routes = [
             {
                 path: 'users/detail/:userId',
                 loadChildren: './views/profile/profile.module#ProfileModule',
+            },
+            {
+                path: 'venues/detail/:venueId',
+                loadChildren: './views/venues-detail/venue-detail.module#VenueDetailModule',
+            },
+            {
+                path: 'venues/new',
+                loadChildren: './views/new-venue/new-venue.module#NewVenueModule',
             }
         ]
     },
@@ -1248,25 +1325,36 @@ module.exports = "<app-header></app-header>\n<div class=\"app-body\">\n  <app-si
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return FullLayoutComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/@angular/router.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
 
 var FullLayoutComponent = (function () {
-    function FullLayoutComponent() {
+    function FullLayoutComponent(router) {
+        this.router = router;
     }
+    FullLayoutComponent.prototype.ngOnInit = function () {
+        this.router.navigate(['venues']);
+    };
     return FullLayoutComponent;
 }());
 FullLayoutComponent = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-dashboard',
         template: __webpack_require__("../../../../../src/app/containers/full-layout/full-layout.component.html")
-    })
+    }),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* Router */]) === "function" && _a || Object])
 ], FullLayoutComponent);
 
+var _a;
 //# sourceMappingURL=full-layout.component.js.map
 
 /***/ }),
@@ -1762,6 +1850,7 @@ var DashboardComponent = (function () {
         this.users = [];
     }
     DashboardComponent.prototype.ngOnInit = function () {
+        this.router.navigate(['venues']);
     };
     return DashboardComponent;
 }());

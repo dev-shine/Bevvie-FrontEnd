@@ -41,6 +41,14 @@ export const routes: Routes = [
       {
         path: 'users/detail/:userId',
         loadChildren: './views/profile/profile.module#ProfileModule',
+      },
+      {
+        path: 'venues/detail/:venueId',
+        loadChildren: './views/venues-detail/venue-detail.module#VenueDetailModule',
+      },
+      {
+        path: 'venues/new',
+        loadChildren: './views/new-venue/new-venue.module#NewVenueModule',
       }
     ]
   },
