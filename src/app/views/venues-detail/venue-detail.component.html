@@ -1,0 +1,88 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h2 #header></h2>
+      </div>
+      <div class="card-body">
+        <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" >Name</label>
+            <div class="col-md-9">
+              <input type="text" id="text-input" name="text-input" class="form-control" placeholder="Text" [(ngModel)]="venue.name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="file-input">Image</label>
+            <div class="col-sm-9 col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <img src="{{venue.image.s3.url}}" style="width: 100%;" *ngIf="customImage == null && venue.image">
+                  <img [src]="customImage" style="width: 100%;" *ngIf="customImage != null">
+                </div>
+                <div class="card-footer">
+                  <input type="file" (change)="fileChangeEvent($event)" id="file-input" name="file-input" accept="image/*">
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="text-input">Schedule</label>
+            <div class="col-md-9">
+              <tabset>
+                <tab *ngFor="let data of schedule">
+                  <ng-template tabHeading>{{stringifyDays(data.weekday)}}&nbsp;<span *ngIf="data.isClose" class="badge badge-danger">Closed</span></ng-template>
+
+                  <div class="card" [ngClass]="data.isClose ? 'card-accent-danger': ''">
+                    <div class="card-body">
+                      <div class="row">
+                        <div class="form-group col-sm-6">
+                          <div class="input-group">
+                            <label for="start">Start</label>
+                            <timepicker [(ngModel)]="data.openTime" name="openTime{{data.weekday}}"></timepicker>
+                          </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                          <div class="input-group">
+                            <label for="end">End</label>
+                            <timepicker [(ngModel)]="data.closeTime" name="closeTime{{data.weekday}}"></timepicker>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer">
+                      <label for="isClosed">This day is closed?</label>
+                      <label class="switch switch-sm switch-text switch-danger float-right mb-0">
+                        <input type="checkbox" class="switch-input" [(ngModel)]="data.isClose" [checked]="data.isClose" name="isClosed{{data.weekday}}">
+                        <span class="switch-label" data-on="Yes" data-off="No"></span>
+                        <span class="switch-handle"></span>
+                      </label>
+                    </div>
+                  </div>
+                </tab>
+              </tabset>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="text-input">Coordinates</label>
+            <div class="col-md-9">
+              <div class="row">
+                <div class="form-group col-sm-4">
+                  <label for="city">Latitude</label>
+                  <input class="form-control" id="city" placeholder="Latitude" maxlength="30" [(ngModel)]="venue.location.coordinates[0]" name="latitude{{venue._id}}">
+                </div>
+                <div class="form-group col-sm-4">
+                  <label for="postal-code">Longitude</label>
+                  <input class="form-control" id="postal-code" placeholder="Longitude" maxlength="30" [(ngModel)]="venue.location.coordinates[1]" name="longitude{{venue._id}}">
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="card-footer">
+        <button type="button" class="btn btn-sm btn-primary" style="color: #fff;" (click)="saveFormData()"><i class="fa fa-floppy-o" style="color: #fff;"></i> Save Changes</button>
+        <button type="button" class="btn btn-sm btn-danger" (click)="deleteVenue()"><i class="fa fa-trash-o"></i> Delete Venue</button>
+      </div>
+    </div>
+</div>
