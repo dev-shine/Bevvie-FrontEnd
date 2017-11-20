@@ -72,8 +72,9 @@ import { HttpModule } from "@angular/http";
 import { AuthGuard } from "./_guard/auth.guard";
 import { UserService } from "./_services/user.service";
 import { AuthenticationService } from "./_services/authentication.service";
-import {DatepickerModule, ModalModule, TimepickerModule} from "ngx-bootstrap";
+import { DatepickerModule, ModalModule, TimepickerModule} from "ngx-bootstrap";
 import { VenueService } from "./_services/venue.service";
+import { ReportService } from "./_services/reports.service";
 
 @NgModule({
   imports: [
@@ -102,7 +103,8 @@ import { VenueService } from "./_services/venue.service";
     AuthGuard,
     AuthenticationService,
     UserService,
-    VenueService
+    VenueService,
+    ReportService
   ],
   bootstrap: [ AppComponent ]
 })

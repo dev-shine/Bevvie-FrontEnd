@@ -87,24 +87,18 @@ var VenueDetailComponent = (function () {
         var _this = this;
         this.activatedRoute.params.subscribe(function (params) {
             var venueId = params['venueId'];
-            if (venueId != 'newVenue') {
-                _this.venueService.getVenueById(venueId)
-                    .subscribe(function (response) {
-                    console.log(response);
-                    _this.venue = response;
-                    _this.header.nativeElement.innerHTML = _this.venue.name;
-                    _this.refillSchedule();
-                }, function (err) {
-                    if (err.status === 401) {
-                        _this.venueService.logOut();
-                        window.location.reload();
-                    }
-                });
-            }
-            else {
-                _this.header.nativeElement.innerHTML = 'New Venue';
-                _this.createFakeSchedule();
-            }
+            _this.venueService.getVenueById(venueId)
+                .subscribe(function (response) {
+                console.log(response);
+                _this.venue = response;
+                _this.header.nativeElement.innerHTML = _this.venue.name;
+                _this.refillSchedule();
+            }, function (err) {
+                if (err.status === 401) {
+                    _this.venueService.logOut();
+                    window.location.reload();
+                }
+            });
         });
     };
     VenueDetailComponent.prototype.stringifyDays = function (day) {
@@ -123,17 +117,6 @@ var VenueDetailComponent = (function () {
                 return 'Sat';
             case 7:
                 return 'Sun';
-        }
-    };
-    VenueDetailComponent.prototype.createFakeSchedule = function () {
-        while (this.schedule.length < 7) {
-            var day = {
-                weekday: this.schedule.length + 1,
-                openTime: new Date(),
-                closeTime: new Date(),
-                isClose: false
-            };
-            this.schedule.push(day);
         }
     };
     VenueDetailComponent.prototype.refillSchedule = function () {

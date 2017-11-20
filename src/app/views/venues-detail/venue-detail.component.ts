@@ -37,26 +37,20 @@ export class VenueDetailComponent implements OnInit{
   ngOnInit(){
     this.activatedRoute.params.subscribe((params: Params) => {
       let venueId = params['venueId'];
-      if(venueId != 'newVenue') {
-        this.venueService.getVenueById(venueId)
-          .subscribe(response => {
-            console.log(response);
-            this.venue = response;
-            this.header.nativeElement.innerHTML = this.venue.name;
+      this.venueService.getVenueById(venueId)
+        .subscribe(response => {
+          console.log(response);
+          this.venue = response;
+          this.header.nativeElement.innerHTML = this.venue.name;
 
-            this.refillSchedule();
-          },
-            err=>{
-              if(err.status === 401) {
-                this.venueService.logOut();
-                window.location.reload();
-              }
-            });
-      }else{
-        this.header.nativeElement.innerHTML = 'New Venue';
-        this.createFakeSchedule();
-      }
-
+          this.refillSchedule();
+        },
+          err=>{
+            if(err.status === 401) {
+              this.venueService.logOut();
+              window.location.reload();
+            }
+          });
     });
   }
 
@@ -76,17 +70,6 @@ export class VenueDetailComponent implements OnInit{
         return 'Sat';
       case 7:
         return 'Sun';
-    }
-  }
-  private createFakeSchedule(){
-    while(this.schedule.length < 7) {
-      let day = {
-        weekday: this.schedule.length+1, //0+1= 1, 1+1 = 2…
-        openTime: new Date(),
-        closeTime: new Date(),
-        isClose: false
-      };
-      this.schedule.push(day);
     }
   }
   private refillSchedule(){

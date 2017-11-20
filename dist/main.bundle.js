@@ -16,8 +16,13 @@ var map = {
 		"../../../../../src/app/views/profile/profile.module.ts",
 		"profile.module"
 	],
+	"./views/reports-detail/report-detail.module": [
+		"../../../../../src/app/views/reports-detail/report-detail.module.ts",
+		"report-detail.module"
+	],
 	"./views/reports/reports.module": [
 		"../../../../../src/app/views/reports/reports.module.ts",
+		"common",
 		"reports.module"
 	],
 	"./views/users/users.module": [
@@ -186,6 +191,73 @@ AuthenticationService = __decorate([
 
 var _a;
 //# sourceMappingURL=authentication.service.js.map
+
+/***/ }),
+
+/***/ "../../../../../src/app/_services/reports.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReportService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/@angular/core.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_authentication_service__ = __webpack_require__("../../../../../src/app/_services/authentication.service.ts");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ReportService = (function () {
+    function ReportService(http, authenticationService) {
+        this.http = http;
+        this.authenticationService = authenticationService;
+    }
+    ReportService.prototype.getHeader = function () {
+        // add authorization header with jwt token
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+        return new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: null });
+    };
+    ReportService.prototype.getReports = function () {
+        // get users from api
+        return this.http.get(this.authenticationService.apiBaseUrl + 'reports', this.getHeader())
+            .map(function (response) { return response.json(); });
+    };
+    ReportService.prototype.getReportsWithParams = function (params) {
+        // get users from api with offset
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: params });
+        return this.http.get(this.authenticationService.apiBaseUrl + 'users', options)
+            .map(function (response) {
+            return response.json();
+        });
+    };
+    ReportService.prototype.getReportById = function (reportId) {
+        // get usersfrom api by id
+        return this.http.get(this.authenticationService.apiBaseUrl + 'reports/' + reportId, this.getHeader())
+            .map(function (response) { return response.json(); });
+    };
+    ReportService.prototype.logOut = function () {
+        this.authenticationService.logout();
+    };
+    return ReportService;
+}());
+ReportService = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Injectable"])(),
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_authentication_service__["a" /* AuthenticationService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_authentication_service__["a" /* AuthenticationService */]) === "function" && _b || Object])
+], ReportService);
+
+var _a, _b;
+//# sourceMappingURL=reports.service.js.map
 
 /***/ }),
 
@@ -464,6 +536,7 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__services_authentication_service__ = __webpack_require__("../../../../../src/app/_services/authentication.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18_ngx_bootstrap__ = __webpack_require__("../../../../ngx-bootstrap/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__services_venue_service__ = __webpack_require__("../../../../../src/app/_services/venue.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__services_reports_service__ = __webpack_require__("../../../../../src/app/_services/reports.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -517,6 +590,7 @@ var APP_DIRECTIVES = [
 
 
 
+
 var AppModule = (function () {
     function AppModule() {
     }
@@ -548,7 +622,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_15__guard_auth_guard__["a" /* AuthGuard */],
             __WEBPACK_IMPORTED_MODULE_17__services_authentication_service__["a" /* AuthenticationService */],
             __WEBPACK_IMPORTED_MODULE_16__services_user_service__["a" /* UserService */],
-            __WEBPACK_IMPORTED_MODULE_19__services_venue_service__["a" /* VenueService */]
+            __WEBPACK_IMPORTED_MODULE_19__services_venue_service__["a" /* VenueService */],
+            __WEBPACK_IMPORTED_MODULE_20__services_reports_service__["a" /* ReportService */]
         ],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */]]
     })
@@ -618,7 +693,10 @@ var routes = [
             {
                 path: 'venues/new',
                 loadChildren: './views/new-venue/new-venue.module#NewVenueModule',
-            }
+            }, {
+                path: 'report/detail/:reportId',
+                loadChildren: './views/reports-detail/report-detail.module#ReportDetailModule',
+            },
         ]
     },
     // otherwise redirect to home

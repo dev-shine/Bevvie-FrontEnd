@@ -1,0 +1,32 @@
+<div class="animated fadeIn">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="card">
+        <div class="card-header">
+          <i class="fa fa-flag"></i> Reports
+        </div>
+        <div class="card-body">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Number of Reports</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let report of reports" [routerLink]="['/report/detail', report._id]">
+              <td>{{report.userReported.name}}</td>
+              <td>1</td>
+            </tr>
+            </tbody>
+          </table>
+          <ul class="pagination">
+            <li class="page-item" *ngFor="let n of paginator" [ngClass]=" n == currentPage ? 'active' : ''">
+              <a class="page-link" (click)="getPage(n)">{{n}}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

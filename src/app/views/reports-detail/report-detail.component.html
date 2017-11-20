@@ -1,0 +1,23 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h2 [routerLink]="['/users/detail', report.userReported._id]">Reports to {{report.userReported.name}}</h2>
+      </div>
+      <div class="card-body">
+        <div class="col-sm-6 col-md-4">
+          <div class="card">
+            <div class="card-header" [routerLink]="['/users/detail', report.userReports._id]" >
+              <i class="fa fa-flag"></i> Reported by {{report.userReports.name}}
+            </div>
+            <div class="card-body">
+              {{report.reason}}
+            </div>
+          </div>
+        </div><!--/.col-->
+
+      </div>
+      <div class="card-footer">
+      </div>
+    </div>
+  </div>
