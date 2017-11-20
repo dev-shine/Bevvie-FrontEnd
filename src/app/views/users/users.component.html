@@ -39,7 +39,7 @@
                 <span class="badge" [ngClass]="userIsValidated(user) ? 'badge-success': 'badge-danger'">{{userIsValidated(user) ? 'Validated':'Pending'}}</span>
               </td>
               <td>
-                <span class="badge" [ngClass]="user.banned ? 'badge-danger': 'badge-info'">{{user.banned ? 'Banned':'No banned'}}</span>
+                <span class="badge" [ngClass]="user.banned ? 'badge-danger': 'badge-info'">{{user.banned ? 'Banned':'Not Banned'}}</span>
               </td>
             </tr>
             </tbody>

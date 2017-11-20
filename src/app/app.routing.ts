@@ -49,7 +49,8 @@ export const routes: Routes = [
       {
         path: 'venues/new',
         loadChildren: './views/new-venue/new-venue.module#NewVenueModule',
-      },{
+      },
+      {
         path: 'report/detail/:reportId',
         loadChildren: './views/reports-detail/report-detail.module#ReportDetailModule',
       },

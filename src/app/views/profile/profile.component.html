@@ -32,8 +32,10 @@
                 <textarea id="textarea-input" name="textarea-input" disabled="disabled" rows="9" class="form-control" placeholder="About.." value="{{user.about ? user.about : ''}}"></textarea>
                 </div>
                 <div class="card-footer" *ngIf="user.about_validated == null && user.about != null">
-                  <button type="button" class="btn btn-sm btn-success" style="color: #fff;" (click)="openAboutModal(primaryModal, true)" ><i class="fa fa-check" style="color: #fff;"></i> Validate</button>
-                  <button type="button" class="btn btn-sm btn-danger" (click)="openAboutModal(primaryModal, false)" ><i class="fa fa-ban"></i> Reject</button>
+                  <div *ngIf="user.about != ''">
+                    <button type="button" class="btn btn-sm btn-success" style="color: #fff;" (click)="openAboutModal(primaryModal, true)" ><i class="fa fa-check" style="color: #fff;"></i> Validate</button>
+                    <button type="button" class="btn btn-sm btn-danger" (click)="openAboutModal(primaryModal, false)" ><i class="fa fa-ban"></i> Reject</button>
+                  </div>
                 </div>
                 <div class="card-footer" *ngIf="user.about_validated == true && (user.about != null)">
                   <span class="badge badge-success">Validated</span>
