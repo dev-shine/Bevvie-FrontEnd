@@ -44,8 +44,8 @@ export class VenuesComponent implements OnInit{
 
   private generatePaginator(){
     this.paginator = [];
-    let maxValue = this.currentPage+3 < this.numberPages ? this.currentPage+4 : this.numberPages;
-    let minValue = this.currentPage-3 > 0 ? this.currentPage-3 : 1;
+    let maxValue = this.currentPage+2 < this.numberPages ? this.currentPage+2 : this.numberPages;
+    let minValue = this.currentPage-2 > 0 ? this.currentPage-2 : 1;
     for(var i=minValue; i<=maxValue; i++){
       this.paginator.push(i);
     }

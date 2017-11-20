@@ -5,7 +5,7 @@ import { VenueDetailRoutingModule } from './venue-detail-routing.module';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { CommonModule } from "@angular/common";
 import { TimepickerModule } from "ngx-bootstrap";
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   imports: [

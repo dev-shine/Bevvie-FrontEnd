@@ -20,7 +20,9 @@ export class ProfileComponent implements OnInit{
     id: null,
     validated_images: [],
     rejected_images: [],
-  }
+  };
+  error = '';
+  success='';
 
   modalForAbout:boolean = false;
 
@@ -49,19 +51,28 @@ export class ProfileComponent implements OnInit{
           console.log(response);
           this.user = response;
           this.validationElements.id = this.user._id;
-        });
+        },
+          err=>{
+            if(err.status === 401) {
+              this.userService.logOut();
+              window.location.reload();
+            }
+          });
     });
   }
 
   private getAge(dateString) {
-    var today = new Date();
-    var birthDate = new Date(dateString);
-    var age = today.getFullYear() - birthDate.getFullYear();
-    var m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
+    if(dateString != null) {
+      var today = new Date();
+      var birthDate = new Date(dateString);
+      var age = today.getFullYear() - birthDate.getFullYear();
+      var m = today.getMonth() - birthDate.getMonth();
+      if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+      }
+      return age;
     }
-    return age;
+    return '';
   }
 
   private cancelModalAction(){
@@ -100,11 +111,20 @@ export class ProfileComponent implements OnInit{
     }
   }
   private saveFormData(){
+    this.restartAlerts();
     this.userService.postUsersValidate(this.user._id, this.validationElements)
       .subscribe(response => {
         this.user = response;
-      });
-
+        this.success = 'User data has been updated correctly';
+        },
+        err=>{
+          if(err.status === 401) {
+            this.userService.logOut();
+            window.location.reload();
+          }
+          let error = JSON.parse(err._body);
+          this.error = error.localizedError;
+        });
   }
   private changeBanState(){
     if(this.user.banned){
@@ -114,15 +134,39 @@ export class ProfileComponent implements OnInit{
     }
   }
   private banUser(){
+    this.restartAlerts();
     this.userService.postUsersBan(this.user._id)
       .subscribe(response => {
         this.user = response;
-      });
+        this.success = 'User has been banned correctly';
+      },
+        err=>{
+          if(err.status === 401) {
+            this.userService.logOut();
+            window.location.reload();
+          }
+          let error = JSON.parse(err._body);
+          this.error = error.localizedError;
+        });
   }
   private unBanUser(){
+    this.restartAlerts();
     this.userService.postUsersUpdate(this.user._id, {banned:false})
       .subscribe(response => {
         this.user = response;
-      });
+          this.success = 'User has been Unbanned correctly';
+        },
+        err=>{
+          if(err.status === 401) {
+            this.userService.logOut();
+            window.location.reload();
+          }
+          let error = JSON.parse(err._body);
+          this.error = error.localizedError;
+        });
+  }
+  private restartAlerts(){
+    this.error = '';
+    this.success = '';
   }
 }

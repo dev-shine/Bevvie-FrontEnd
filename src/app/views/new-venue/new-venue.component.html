@@ -81,6 +81,8 @@
       </div>
       <div class="card-footer">
         <button type="button" class="btn btn-sm btn-primary" style="color: #fff;" (click)="saveFormData()"><i class="fa fa-floppy-o" style="color: #fff;"></i> Add Venue</button>
+        <div *ngIf="success" class="alert alert-success">{{success}}</div>
+        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
       </div>
     </div>
 </div>

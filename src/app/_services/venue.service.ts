@@ -69,11 +69,17 @@ export class VenueService {
       .map((response: Response) => response.json());
   }
 
-  postNewImage(params:any):Observable<any>{
-    let headers = new Headers({'Authorization': 'Bearer '+this.authenticationService.token});
-    let options = new RequestOptions({ headers: headers, body: params });
+  postNewImage(image:any):Observable<any>{
+    var formData = new FormData();
+    formData.append('file', image, image.name);
 
-    return this.http.post(this.authenticationService.apiBaseUrl+'images', params, options)
+    let headers = new Headers({'Authorization': 'Bearer '+this.authenticationService.token});
+    let options = new RequestOptions({ headers: headers, body: formData });
+
+    return this.http.post(this.authenticationService.apiBaseUrl+'images', formData, options)
       .map((response: Response) => response.json());
+  }
+  logOut(){
+    this.authenticationService.logout();
   }
 }

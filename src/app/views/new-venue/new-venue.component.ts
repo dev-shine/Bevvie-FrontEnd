@@ -25,7 +25,10 @@ export class NewVenueComponent implements OnInit{
       coordinates:[]
     },
     schedule:[]
-  }
+  };
+  error = '';
+  success = '';
+
 
   myTime : Date;
   schedule : venueSchedule[] = [];
@@ -82,13 +85,14 @@ export class NewVenueComponent implements OnInit{
 
     reader.onload = (e: any) => {
       this.customImage = e.target.result;
-      this.venueService.postNewImage({file: e.target.result})
-        .subscribe(response => {
-          console.log(response);
-          this.params['image ']= response._id;
-        });
     }
     reader.readAsDataURL(fileInput.target.files[0]);
+    this.venueService.postNewImage(fileInput.target.files[0])
+      .subscribe(response => {
+        console.log(response);
+        this.params['image ']= response._id;
+      });
+
   }
 
   private saveFormData(){
@@ -103,8 +107,21 @@ export class NewVenueComponent implements OnInit{
 
     this.venueService.postNewVenue(this.params)
       .subscribe(response => {
-        this.router.navigate(['venues'])
-      });
+          this.router.navigate(['venues'])
+        },
+        err=>{
+          if(err.status === 401) {
+            this.venueService.logOut();
+            window.location.reload();
+          }
+          let error = JSON.parse(err._body);
+          this.error = error.localizedError;
+        });
+  }
+
+  private restartAlerts(){
+    this.error = '';
+    this.success = '';
   }
 }
 

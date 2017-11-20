@@ -97,5 +97,8 @@ export class UserService {
         return response.json()
       });
   }
+  logOut(){
+    this.authenticationService.logout();
+  }
 
 }

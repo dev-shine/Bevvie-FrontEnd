@@ -20,6 +20,8 @@ export class VenueDetailComponent implements OnInit{
   myTime : Date;
   schedule : venueSchedule[] = [];
   customImage: any;
+  error = '';
+  success = '';
 
   modalForAbout:boolean = false;
 
@@ -43,7 +45,13 @@ export class VenueDetailComponent implements OnInit{
             this.header.nativeElement.innerHTML = this.venue.name;
 
             this.refillSchedule();
-          });
+          },
+            err=>{
+              if(err.status === 401) {
+                this.venueService.logOut();
+                window.location.reload();
+              }
+            });
       }else{
         this.header.nativeElement.innerHTML = 'New Venue';
         this.createFakeSchedule();
@@ -108,20 +116,34 @@ export class VenueDetailComponent implements OnInit{
   }
 
   private fileChangeEvent(fileInput: any){
+    this.restartAlerts();
+
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
       this.customImage = e.target.result;
-      this.venueService.postNewImage({file: e.target.result})
-        .subscribe(response => {
-          console.log(response);
-          this.venue.image = response;
-        });
+
     }
     reader.readAsDataURL(fileInput.target.files[0]);
+    this.venueService.postNewImage(fileInput.target.files[0])
+      .subscribe(response => {
+        console.log(response);
+          this.venue.image = response;
+          this.success = 'Venue image updated correctly';
+        },
+        err=>{
+          if(err.status === 401) {
+            this.venueService.logOut();
+            window.location.reload();
+          }
+          let error = JSON.parse(err._body);
+          this.error = error.localizedError;
+        });
   }
 
   private saveFormData(){
+    this.restartAlerts();
+
     var schedule = [];
     this.schedule.map(item => {
       if(!item.isClose){
@@ -137,8 +159,16 @@ export class VenueDetailComponent implements OnInit{
     };
     this.venueService.postVenueUpdate(this.venue._id, params)
       .subscribe(response => {
-        window.location.reload();
-      });
+          this.success = 'Venue data has been updated correctly';
+        },
+        err=>{
+          if(err.status === 401) {
+            this.venueService.logOut();
+            window.location.reload();
+          }
+          let error = JSON.parse(err._body);
+          this.error = error.localizedError;
+        });
   }
 
   private deleteVenue() {
@@ -147,5 +177,9 @@ export class VenueDetailComponent implements OnInit{
         this.router.navigate(['venues']);
       });
   }
-}
 
+  private restartAlerts(){
+    this.error = '';
+    this.success = '';
+  }
+}

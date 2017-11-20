@@ -32,7 +32,13 @@ export class UsersComponent implements OnInit{
 
         this.users = response.docs as User[];
         this.bindPage(response);
-      });
+      },
+        err=>{
+          if(err.status === 401) {
+            this.userService.logOut();
+            window.location.reload();
+          }
+        });
   }
 
   private getPage(page:number){
@@ -44,7 +50,13 @@ export class UsersComponent implements OnInit{
 
         this.users = response.docs as User[];
         this.bindPage(response);
-      });
+      },
+        err=>{
+          if(err.status === 401) {
+            this.userService.logOut();
+            window.location.reload();
+          }
+        });
   }
   private getPageWithSort(filter: string){
     this.params.sort = {
@@ -58,7 +70,13 @@ export class UsersComponent implements OnInit{
 
         this.users = response.docs as User[];
         this.bindPage(response);
-      });
+      },
+        err=>{
+          if(err.status === 401) {
+            this.userService.logOut();
+            window.location.reload();
+          }
+        });
   }
 
   private filterUsersByName(newFilter:string ){
@@ -70,8 +88,13 @@ export class UsersComponent implements OnInit{
 
         this.users = response.docs as User[];
         this.bindPage(response);
-      });
-
+      },
+        err=>{
+          if(err.status === 401) {
+            this.userService.logOut();
+            window.location.reload();
+          }
+        });
   }
   private checkOrder(filter): string{
     switch(filter){
@@ -102,12 +125,13 @@ export class UsersComponent implements OnInit{
 
   private generatePaginator(){
     this.paginator = [];
-    let maxValue = this.currentPage+3 < this.numberPages ? this.currentPage+4 : this.numberPages;
-    let minValue = this.currentPage-3 > 0 ? this.currentPage-3 : 1;
+    let maxValue = this.currentPage+2 < this.numberPages ? this.currentPage+2 : this.numberPages;
+    let minValue = this.currentPage-2 > 0 ? this.currentPage-2 : 1;
     for(var i=minValue; i<=maxValue; i++){
       this.paginator.push(i);
     }
   }
+
   private userIsValidated(user:User): Boolean{
     if(user.images.length > 0){
       for( var i = 0; i<=user.images.length-1; i++){
@@ -116,8 +140,10 @@ export class UsersComponent implements OnInit{
         }
       }
     }
-    if(user.about == null) {
+    if(user.about_validated == null) {
+      if(user.about != null) {
         return false;
+      }
     }
 
     return true;

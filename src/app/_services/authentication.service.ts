@@ -38,10 +38,11 @@ export class AuthenticationService {
           // return false to indicate failed login
           return false;
         }
-      });
+      })
+
   }
 
-  logout(): void {
+  public logout(): void {
     // clear token remove user from local storage to log user out
     this.token = null;
     localStorage.removeItem('currentUser');

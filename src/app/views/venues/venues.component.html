@@ -19,7 +19,7 @@
             <thead>
             <tr>
               <th>Picture</th>
-              <th (click)="getPageWithSort('name')">Name</th>
+              <th (click)="getPageWithSort('name')" style="cursor: pointer">Name</th>
             </tr>
             </thead>
             <tbody>
@@ -36,9 +36,7 @@
           </table>
           <ul class="pagination">
             <li class="page-item" *ngFor="let n of paginator" [ngClass]=" n == currentPage ? 'active' : ''">
-              <a class="page-link" *ngIf="paginator.indexOf(0) == 1" (click)="getPage(paginator.indexOf(0)-1)">Prev</a>
               <a class="page-link" (click)="getPage(n)">{{n}}</a>
-              <a class="page-link" *ngIf="paginator.indexOf(paginator.length-1) == numberPages" (click)="getPage(paginator.indexOf(0)-1)">Prev</a>
             </li>
           </ul>
         </div>
