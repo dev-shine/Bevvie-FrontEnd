@@ -2,7 +2,7 @@ import { Component, ViewChild, OnInit, TemplateRef } from '@angular/core';
 import { Params, ActivatedRoute } from "@angular/router";
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { BsModalRef } from "ngx-bootstrap";
-
+import { Location} from "@angular/common";
 import {User, userAbout, userImage} from '../../_models/user';
 import { UserService } from '../../_services/user.service';
 
@@ -30,7 +30,8 @@ export class ProfileComponent implements OnInit{
 
   constructor(private userService: UserService,
               private activatedRoute: ActivatedRoute,
-              private modalService: BsModalService) {
+              private modalService: BsModalService,
+              private location: Location) {
   }
   openModal(template: TemplateRef<any>, action: boolean, image: userImage) {
     this.validateAction = action;
@@ -169,4 +170,5 @@ export class ProfileComponent implements OnInit{
     this.error = '';
     this.success = '';
   }
+
 }

@@ -13,7 +13,7 @@ export class ReportDetailComponent implements OnInit{
 
   @ViewChild('header') header: ElementRef;
 
-  report: Report;
+  reports: Report[];
 
   constructor(private reportService: ReportService,
               private activatedRoute: ActivatedRoute,
@@ -23,11 +23,11 @@ export class ReportDetailComponent implements OnInit{
 
   ngOnInit(){
     this.activatedRoute.params.subscribe((params: Params) => {
-      let reportId = params['reportId'];
-      this.reportService.getReportById(reportId)
+      let reportedId = params['reportedId'];
+      this.reportService.getReportsDetail(reportedId)
         .subscribe(response => {
             console.log(response);
-            this.report = response;
+            this.reports = response.docs;
           },
           err=>{
             if(err.status === 401) {

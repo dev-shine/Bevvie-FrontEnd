@@ -45,7 +45,7 @@ ReportsRoutingModule = __decorate([
 /***/ "../../../../../src/app/views/reports/reports.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"animated fadeIn\">\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <div class=\"card\">\n        <div class=\"card-header\">\n          <i class=\"fa fa-flag\"></i> Reports\n        </div>\n        <div class=\"card-body\">\n          <table class=\"table\">\n            <thead>\n            <tr>\n              <th>Name</th>\n              <th>Number of Reports</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr *ngFor=\"let report of reports\" [routerLink]=\"['/report/detail', report._id]\">\n              <td>{{report.userReported.name}}</td>\n              <td>1</td>\n            </tr>\n            </tbody>\n          </table>\n          <ul class=\"pagination\">\n            <li class=\"page-item\" *ngFor=\"let n of paginator\" [ngClass]=\" n == currentPage ? 'active' : ''\">\n              <a class=\"page-link\" (click)=\"getPage(n)\">{{n}}</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"animated fadeIn\">\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <div class=\"card\">\n        <div class=\"card-header\">\n          <i class=\"fa fa-flag\"></i> Reports\n        </div>\n        <div class=\"card-body\">\n          <table class=\"table\">\n            <thead>\n            <tr>\n              <th>Name</th>\n              <th>Number of Reports</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr *ngFor=\"let report of reports\" [routerLink]=\"['/report/detail', report._id]\">\n              <td>{{report.userReported.name}}</td>\n              <td>{{report.count}}</td>\n            </tr>\n            </tbody>\n          </table>\n          <ul class=\"pagination\">\n            <li class=\"page-item\" *ngFor=\"let n of paginator\">\n              <a class=\"page-link\" (click)=\"getPage(n)\">{{n}}</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -74,10 +74,8 @@ var ReportsComponent = (function () {
     function ReportsComponent(reportService) {
         this.reportService = reportService;
         this.reports = [];
-        this.currentPage = 0;
         this.pageOffset = 0;
-        this.numberPages = 0;
-        this.totalUsers = 0;
+        this.totalEntries = 0;
         this.paginator = [];
         this.params = {};
     }
@@ -98,6 +96,7 @@ var ReportsComponent = (function () {
     ReportsComponent.prototype.getPage = function (page) {
         var _this = this;
         this.params.page = page;
+        this.params.statistics = true;
         var codifiedparams = __WEBPACK_IMPORTED_MODULE_2_qs__["stringify"](this.params);
         this.reportService.getReportsWithParams(this.decodeToAscii(codifiedparams))
             .subscribe(function (response) {
@@ -111,16 +110,14 @@ var ReportsComponent = (function () {
         });
     };
     ReportsComponent.prototype.bindPage = function (response) {
-        this.currentPage = response.page;
         this.pageOffset = response.offset;
-        this.totalUsers = response.total;
-        this.numberPages = response.pages;
+        this.totalEntries = response.total;
         this.generatePaginator();
     };
     ReportsComponent.prototype.generatePaginator = function () {
         this.paginator = [];
-        var maxValue = this.currentPage + 2 < this.numberPages ? this.currentPage + 2 : this.numberPages;
-        var minValue = this.currentPage - 2 > 0 ? this.currentPage - 2 : 1;
+        var maxValue = this.totalEntries / 10;
+        var minValue = 1;
         for (var i = minValue; i <= maxValue; i++) {
             this.paginator.push(i);
         }

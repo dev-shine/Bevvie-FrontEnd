@@ -1,12 +1,14 @@
 export class Report {
   _id:string;
-  active:boolean;
-  userReports: reports;
+  image:string;
   userReported: reported;
+  reports: userReports[];
   reason: string;
+  count:number;
 }
-export class reports{
+export class userReports{
   _id:string;
+  reason: string;
   name:string;
 }
 

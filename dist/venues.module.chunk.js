@@ -77,7 +77,7 @@ var VenuesComponent = (function () {
         this.currentPage = 0;
         this.pageOffset = 0;
         this.numberPages = 0;
-        this.totalUsers = 0;
+        this.totalEntries = 0;
         this.paginator = [];
         this.params = {};
     }
@@ -93,7 +93,7 @@ var VenuesComponent = (function () {
     VenuesComponent.prototype.bindPage = function (response) {
         this.currentPage = response.page;
         this.pageOffset = response.offset;
-        this.totalUsers = response.total;
+        this.totalEntries = response.total;
         this.numberPages = response.pages;
         this.generatePaginator();
     };

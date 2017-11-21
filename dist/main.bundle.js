@@ -229,7 +229,16 @@ var ReportService = (function () {
     };
     ReportService.prototype.getReports = function () {
         // get users from api
-        return this.http.get(this.authenticationService.apiBaseUrl + 'reports', this.getHeader())
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: { statistics: true } });
+        return this.http.get(this.authenticationService.apiBaseUrl + 'reports', options)
+            .map(function (response) { return response.json(); });
+    };
+    ReportService.prototype.getReportsDetail = function (userId) {
+        // get users from api
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: { userReported: userId } });
+        return this.http.get(this.authenticationService.apiBaseUrl + 'reports', options)
             .map(function (response) { return response.json(); });
     };
     ReportService.prototype.getReportsWithParams = function (params) {
@@ -245,6 +254,17 @@ var ReportService = (function () {
         // get usersfrom api by id
         return this.http.get(this.authenticationService.apiBaseUrl + 'reports/' + reportId, this.getHeader())
             .map(function (response) { return response.json(); });
+    };
+    ReportService.prototype.getUserById = function (userId) {
+        var _this = this;
+        // get usersfrom api by id
+        return this.http.get(this.authenticationService.apiBaseUrl + 'users/' + userId, this.getHeader())
+            .map(function (response) {
+            if (response.status == 401) {
+                _this.authenticationService.logout();
+            }
+            return response.json();
+        });
     };
     ReportService.prototype.logOut = function () {
         this.authenticationService.logout();
@@ -695,7 +715,7 @@ var routes = [
                 loadChildren: './views/new-venue/new-venue.module#NewVenueModule',
             },
             {
-                path: 'report/detail/:reportId',
+                path: 'report/detail/:reportedId',
                 loadChildren: './views/reports-detail/report-detail.module#ReportDetailModule',
             },
         ]
@@ -893,7 +913,7 @@ AppFooterComponent = __decorate([
 /***/ "../../../../../src/app/components/app-header/app-header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"app-header navbar\">\n  <button class=\"navbar-toggler d-lg-none\" type=\"button\" appMobileSidebarToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <a class=\"navbar-brand\" href=\"#\"></a>\n  <button class=\"navbar-toggler d-md-down-none mr-auto\" type=\"button\" appSidebarToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <!--<button class=\"navbar-toggler d-md-down-none\" type=\"button\" appAsideMenuToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>-->\n</header>\n"
+module.exports = "<header class=\"app-header navbar\">\n  <button class=\"navbar-toggler d-lg-none\" type=\"button\" appMobileSidebarToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <a class=\"navbar-brand\" href=\"#\"></a>\n  <button class=\"navbar-toggler d-md-down-none mr-auto\" type=\"button\" appSidebarToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>\n  <ul class=\"nav navbar-nav ml-auto\">\n    <li class=\"nav-item dropdown\" dropdown placement=\"bottom right\">\n      <a class=\"nav-link dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" dropdownToggle (click)=\"false\">\n        <img src=\"assets/img/admin.svg\" class=\"img-avatar\" alt=\"Bevvie Admin\"/>\n      </a>\n      <div class=\"dropdown-menu dropdown-menu-right\" *dropdownMenu aria-labelledby=\"simple-dropdown\">\n        <div class=\"dropdown-header text-center\"><strong>Account</strong></div>\n        <a class=\"dropdown-item\" [routerLink]=\"['/login']\"><i class=\"fa fa-lock\"></i> Logout</a>\n      </div>\n    </li>\n  </ul>\n\n  <!--<button class=\"navbar-toggler d-md-down-none\" type=\"button\" appAsideMenuToggler>\n    <span class=\"navbar-toggler-icon\"></span>\n  </button>-->\n</header>\n"
 
 /***/ }),
 

@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map'
 
 import { AuthenticationService } from '../_services/authentication.service';
 import { Report } from '../_models/_report';
+import { User} from "../_models/user";
 
 @Injectable()
 export class ReportService{
@@ -22,7 +23,22 @@ export class ReportService{
 
   getReports(): Observable<any> {
     // get users from api
-    return this.http.get(this.authenticationService.apiBaseUrl+'reports', this.getHeader())
+
+    let headers = new Headers({'Authorization': 'Bearer ' + this.authenticationService.token});
+
+    let options = new RequestOptions({ headers: headers, params: {statistics : true}});
+
+    return this.http.get(this.authenticationService.apiBaseUrl+'reports', options)
+      .map((response: Response) => response.json());
+  }
+  getReportsDetail(userId:string): Observable<any> {
+    // get users from api
+
+    let headers = new Headers({'Authorization': 'Bearer ' + this.authenticationService.token});
+
+    let options = new RequestOptions({ headers: headers, params: {userReported : userId}});
+
+    return this.http.get(this.authenticationService.apiBaseUrl+'reports', options)
       .map((response: Response) => response.json());
   }
 
@@ -44,6 +60,17 @@ export class ReportService{
 
     return this.http.get(this.authenticationService.apiBaseUrl+'reports/'+reportId, this.getHeader())
       .map((response: Response) => response.json());
+  }
+
+  getUserById(userId: string): Observable<User> {
+    // get usersfrom api by id
+    return this.http.get(this.authenticationService.apiBaseUrl+'users/'+userId, this.getHeader())
+      .map((response: Response) => {
+        if(response.status == 401){
+          this.authenticationService.logout();
+        }
+        return response.json()
+      });
   }
 
   logOut(){

@@ -16,12 +16,12 @@
             <tbody>
             <tr *ngFor="let report of reports" [routerLink]="['/report/detail', report._id]">
               <td>{{report.userReported.name}}</td>
-              <td>1</td>
+              <td>{{report.count}}</td>
             </tr>
             </tbody>
           </table>
           <ul class="pagination">
-            <li class="page-item" *ngFor="let n of paginator" [ngClass]=" n == currentPage ? 'active' : ''">
+            <li class="page-item" *ngFor="let n of paginator">
               <a class="page-link" (click)="getPage(n)">{{n}}</a>
             </li>
           </ul>

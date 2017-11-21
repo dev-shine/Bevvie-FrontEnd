@@ -45,7 +45,7 @@ ReportDetailRoutingModule = __decorate([
 /***/ "../../../../../src/app/views/reports-detail/report-detail.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n  <div class=\"col-md-12\">\n    <div class=\"card\">\n      <div class=\"card-header\">\n        <h2 [routerLink]=\"['/users/detail', report.userReported._id]\">Reports to {{report.userReported.name}}</h2>\n      </div>\n      <div class=\"card-body\">\n        <div class=\"col-sm-6 col-md-4\">\n          <div class=\"card\">\n            <div class=\"card-header\" [routerLink]=\"['/users/detail', report.userReports._id]\" >\n              <i class=\"fa fa-flag\"></i> Reported by {{report.userReports.name}}\n            </div>\n            <div class=\"card-body\">\n              {{report.reason}}\n            </div>\n          </div>\n        </div><!--/.col-->\n\n      </div>\n      <div class=\"card-footer\">\n      </div>\n    </div>\n  </div>\n"
+module.exports = "<div class=\"row\">\n  <div class=\"col-md-12\">\n    <div class=\"card\">\n      <div class=\"card-header\">\n        <h2 [routerLink]=\"['/users/detail', reports[0].userReported._id]\" >Reports to <span style=\"text-decoration: underline; cursor: pointer;\">{{reports[0].userReported.name}}</span></h2>\n      </div>\n      <div class=\"card-body\">\n        <div class=\"row\">\n        <div class=\"col-sm-6 col-md-4\" *ngFor=\"let report of reports\">\n          <div class=\"card card-accent-danger\">\n            <div class=\"card-header\" [routerLink]=\"['/users/detail', report.userReports._id]\" >\n              <i class=\"fa fa-flag\"></i> Reported by <span style=\"text-decoration: underline; cursor: pointer;\">{{report.userReports.name}}</span>\n            </div>\n            <div class=\"card-body\">\n              {{report.reason}}\n            </div>\n          </div>\n        </div><!--/.col-->\n        </div>\n      </div>\n      <div class=\"card-footer\">\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -78,11 +78,11 @@ var ReportDetailComponent = (function () {
     ReportDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.activatedRoute.params.subscribe(function (params) {
-            var reportId = params['reportId'];
-            _this.reportService.getReportById(reportId)
+            var reportedId = params['reportedId'];
+            _this.reportService.getReportsDetail(reportedId)
                 .subscribe(function (response) {
                 console.log(response);
-                _this.report = response;
+                _this.reports = response.docs;
             }, function (err) {
                 if (err.status === 401) {
                     _this.reportService.logOut();

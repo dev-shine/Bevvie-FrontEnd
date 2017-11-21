@@ -30,8 +30,8 @@
             <tr *ngFor="let user of users" [routerLink]="['/users/detail', user._id]">
               <td>
                 <div class="avatar">
-                  <img src="{{user.images[0].s3.url}}" *ngIf="user.images.length > 0" class="img-avatar" alt="admin@bootstrapmaster.com" src="{{user.images[0].s3.url}}">
-                  <img src="../../../assets/img/logo-symbol.png" *ngIf="user.images.length == 0" class="img-avatar" alt="admin@bootstrapmaster.com" src="../../../assets/img/logo-symbol.png">
+                  <img src="{{user.images[0].s3.url}}" *ngIf="user.images.length > 0" class="img-avatar" alt="user_image" src="{{user.images[0].s3.url}}">
+                  <img src="../../../assets/img/logo-symbol.png" *ngIf="user.images.length == 0" class="img-avatar" alt="empty_user_image" src="../../../assets/img/logo-symbol.png">
                 </div>
               </td>
               <td>{{user.name}}</td>

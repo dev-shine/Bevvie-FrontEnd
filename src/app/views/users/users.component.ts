@@ -14,7 +14,7 @@ export class UsersComponent implements OnInit{
   currentPage: number = 0;
   pageOffset: number = 0;
   numberPages: number = 0;
-  totalUsers: number = 0;
+  totalEntries: number = 0;
   paginator : number[] = [];
 
   params : any = {};
@@ -117,7 +117,7 @@ export class UsersComponent implements OnInit{
   private bindPage(response: any){
     this.currentPage = response.page;
     this.pageOffset = response.offset;
-    this.totalUsers = response.total;
+    this.totalEntries = response.total;
     this.numberPages = response.pages;
 
     this.generatePaginator();

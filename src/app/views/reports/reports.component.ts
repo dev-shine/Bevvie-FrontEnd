@@ -11,10 +11,9 @@ import * as qs from 'qs';
 export class ReportsComponent implements OnInit{
 
   reports: Report[] = [];
-  currentPage: number = 0;
+
   pageOffset: number = 0;
-  numberPages: number = 0;
-  totalUsers: number = 0;
+  totalEntries: number = 0;
   paginator : number[] = [];
 
   params : any = {};
@@ -26,7 +25,6 @@ export class ReportsComponent implements OnInit{
     // get users from secure api end point
     this.reportService.getReports()
       .subscribe(response => {
-
           this.reports = response.docs as Report[];
           this.bindPage(response);
         },
@@ -43,7 +41,6 @@ export class ReportsComponent implements OnInit{
     this.params.page = page;
     this.params.statistics = true;
     var codifiedparams = qs.stringify(this.params);
-
     this.reportService.getReportsWithParams(this.decodeToAscii(codifiedparams))
       .subscribe(response => {
 
@@ -59,18 +56,15 @@ export class ReportsComponent implements OnInit{
   }
 
   private bindPage(response: any){
-    this.currentPage = response.page;
     this.pageOffset = response.offset;
-    this.totalUsers = response.total;
-    this.numberPages = response.pages;
-
+    this.totalEntries = response.total;
     this.generatePaginator();
   }
 
   private generatePaginator(){
     this.paginator = [];
-    let maxValue = this.currentPage+2 < this.numberPages ? this.currentPage+2 : this.numberPages;
-    let minValue = this.currentPage-2 > 0 ? this.currentPage-2 : 1;
+    let maxValue = this.totalEntries/10;
+    let minValue = 1;
     for(var i=minValue; i<=maxValue; i++){
       this.paginator.push(i);
     }

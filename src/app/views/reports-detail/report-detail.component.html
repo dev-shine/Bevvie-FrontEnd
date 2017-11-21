@@ -2,22 +2,24 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h2 [routerLink]="['/users/detail', report.userReported._id]">Reports to {{report.userReported.name}}</h2>
+        <h2 [routerLink]="['/users/detail', reports[0].userReported._id]" >Reports to <span style="text-decoration: underline; cursor: pointer;">{{reports[0].userReported.name}}</span></h2>
       </div>
       <div class="card-body">
-        <div class="col-sm-6 col-md-4">
-          <div class="card">
+        <div class="row">
+        <div class="col-sm-6 col-md-4" *ngFor="let report of reports">
+          <div class="card card-accent-danger">
             <div class="card-header" [routerLink]="['/users/detail', report.userReports._id]" >
-              <i class="fa fa-flag"></i> Reported by {{report.userReports.name}}
+              <i class="fa fa-flag"></i> Reported by <span style="text-decoration: underline; cursor: pointer;">{{report.userReports.name}}</span>
             </div>
             <div class="card-body">
               {{report.reason}}
             </div>
           </div>
         </div><!--/.col-->
-
+        </div>
       </div>
       <div class="card-footer">
       </div>
     </div>
   </div>
+</div>
