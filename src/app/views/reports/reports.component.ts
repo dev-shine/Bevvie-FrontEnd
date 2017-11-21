@@ -38,12 +38,11 @@ export class ReportsComponent implements OnInit{
 
 
   private getPage(page:number){
-    this.params.page = page;
+    this.params.offset = (page-1)*10;
     this.params.statistics = true;
     var codifiedparams = qs.stringify(this.params);
     this.reportService.getReportsWithParams(this.decodeToAscii(codifiedparams))
       .subscribe(response => {
-
           this.reports = response.docs as Report[];
           this.bindPage(response);
         },
@@ -62,10 +61,11 @@ export class ReportsComponent implements OnInit{
   }
 
   private generatePaginator(){
-    this.paginator = [];
-    let maxValue = this.totalEntries/10;
-    let minValue = 1;
-    for(var i=minValue; i<=maxValue; i++){
+    this.paginator = []; //20
+    let maxValue = (this.totalEntries/10)+2 > this.pageOffset/10 ? (this.pageOffset/10)+2 : this.totalEntries/10;
+    let minValue = (this.pageOffset/10)-2 > 0 ? (this.pageOffset/10)+2 : 1;
+
+    for(var i=1; i<=maxValue; i++){
       this.paginator.push(i);
     }
   }

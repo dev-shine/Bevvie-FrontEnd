@@ -19,6 +19,7 @@ export class NewVenueComponent implements OnInit{
 
   params = {
     name : '',
+    image: '',
     radius: 30,
     location: {
       type: 'Point',
@@ -81,18 +82,29 @@ export class NewVenueComponent implements OnInit{
   }
 
   private fileChangeEvent(fileInput: any){
+    this.restartAlerts();
+
     let reader = new FileReader();
 
     reader.onload = (e: any) => {
       this.customImage = e.target.result;
+
     }
     reader.readAsDataURL(fileInput.target.files[0]);
     this.venueService.postNewImage(fileInput.target.files[0])
       .subscribe(response => {
-        console.log(response);
-        this.params['image ']= response._id;
-      });
-
+          console.log(response);
+          this.params.image = response._id;
+          this.success = 'Venue image updated correctly';
+        },
+        err=>{
+          if(err.status === 401) {
+            this.venueService.logOut();
+            window.location.reload();
+          }
+          let error = JSON.parse(err._body);
+          this.error = error.localizedError;
+        });
   }
 
   private saveFormData(){

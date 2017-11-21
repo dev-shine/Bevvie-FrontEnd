@@ -79,6 +79,7 @@ var NewVenueComponent = (function () {
         this.router = router;
         this.params = {
             name: '',
+            image: '',
             radius: 30,
             location: {
                 type: 'Point',
@@ -127,6 +128,7 @@ var NewVenueComponent = (function () {
     };
     NewVenueComponent.prototype.fileChangeEvent = function (fileInput) {
         var _this = this;
+        this.restartAlerts();
         var reader = new FileReader();
         reader.onload = function (e) {
             _this.customImage = e.target.result;
@@ -135,7 +137,15 @@ var NewVenueComponent = (function () {
         this.venueService.postNewImage(fileInput.target.files[0])
             .subscribe(function (response) {
             console.log(response);
-            _this.params['image '] = response._id;
+            _this.params.image = response._id;
+            _this.success = 'Venue image updated correctly';
+        }, function (err) {
+            if (err.status === 401) {
+                _this.venueService.logOut();
+                window.location.reload();
+            }
+            var error = JSON.parse(err._body);
+            _this.error = error.localizedError;
         });
     };
     NewVenueComponent.prototype.saveFormData = function () {

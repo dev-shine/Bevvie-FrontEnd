@@ -95,7 +95,7 @@ var ReportsComponent = (function () {
     };
     ReportsComponent.prototype.getPage = function (page) {
         var _this = this;
-        this.params.page = page;
+        this.params.offset = (page - 1) * 10;
         this.params.statistics = true;
         var codifiedparams = __WEBPACK_IMPORTED_MODULE_2_qs__["stringify"](this.params);
         this.reportService.getReportsWithParams(this.decodeToAscii(codifiedparams))
@@ -115,10 +115,10 @@ var ReportsComponent = (function () {
         this.generatePaginator();
     };
     ReportsComponent.prototype.generatePaginator = function () {
-        this.paginator = [];
-        var maxValue = this.totalEntries / 10;
-        var minValue = 1;
-        for (var i = minValue; i <= maxValue; i++) {
+        this.paginator = []; //20
+        var maxValue = (this.totalEntries / 10) + 2 > this.pageOffset / 10 ? (this.pageOffset / 10) + 2 : this.totalEntries / 10;
+        var minValue = (this.pageOffset / 10) - 2 > 0 ? (this.pageOffset / 10) + 2 : 1;
+        for (var i = 1; i <= maxValue; i++) {
             this.paginator.push(i);
         }
     };

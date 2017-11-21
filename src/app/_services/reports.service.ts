@@ -49,7 +49,7 @@ export class ReportService{
 
     let options = new RequestOptions({ headers: headers, params: params });
 
-    return this.http.get(this.authenticationService.apiBaseUrl+'users', options)
+    return this.http.get(this.authenticationService.apiBaseUrl+'reports', options)
       .map((response: Response) => {
         return response.json()
       });

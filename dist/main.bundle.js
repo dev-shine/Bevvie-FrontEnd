@@ -245,7 +245,7 @@ var ReportService = (function () {
         // get users from api with offset
         var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({ 'Authorization': 'Bearer ' + this.authenticationService.token });
         var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ headers: headers, params: params });
-        return this.http.get(this.authenticationService.apiBaseUrl + 'users', options)
+        return this.http.get(this.authenticationService.apiBaseUrl + 'reports', options)
             .map(function (response) {
             return response.json();
         });
