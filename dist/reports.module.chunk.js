@@ -45,7 +45,7 @@ ReportsRoutingModule = __decorate([
 /***/ "../../../../../src/app/views/reports/reports.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"animated fadeIn\">\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <div class=\"card\">\n        <div class=\"card-header\">\n          <i class=\"fa fa-flag\"></i> Reports\n        </div>\n        <div class=\"card-body\">\n          <table class=\"table\">\n            <thead>\n            <tr>\n              <th>Name</th>\n              <th>Number of Reports</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr *ngFor=\"let report of reports\" [routerLink]=\"['/report/detail', report._id]\">\n              <td>{{report.userReported.name}}</td>\n              <td>{{report.count}}</td>\n            </tr>\n            </tbody>\n          </table>\n          <ul class=\"pagination\">\n            <li class=\"page-item\" *ngFor=\"let n of paginator\">\n              <a class=\"page-link\" (click)=\"getPage(n)\">{{n}}</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
+module.exports = "<div class=\"animated fadeIn\">\n  <div class=\"row\">\n    <div class=\"col-lg-12\">\n      <div class=\"card\">\n        <div class=\"card-header\">\n          <i class=\"fa fa-flag\"></i> Reports\n        </div>\n        <div class=\"card-body\">\n          <table class=\"table\">\n            <thead>\n            <tr>\n              <th>Name</th>\n              <th>Number of Reports</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr *ngFor=\"let report of reports\" [routerLink]=\"['/report/detail', report._id]\">\n              <td>{{report.userReported.name}}</td>\n              <td>{{report.count}}</td>\n            </tr>\n            </tbody>\n          </table>\n          <ul class=\"pagination\">\n            <li class=\"page-item\" *ngFor=\"let n of paginator\" [ngClass]=\"n == (pageOffset/10)+1 ? 'active': ''\">\n              <a class=\"page-link\" (click)=\"getPage(n)\">{{n}}</a>\n            </li>\n          </ul>\n        </div>\n      </div>\n    </div>\n  </div>\n</div>\n"
 
 /***/ }),
 
@@ -116,7 +116,7 @@ var ReportsComponent = (function () {
     };
     ReportsComponent.prototype.generatePaginator = function () {
         this.paginator = []; //20
-        var maxValue = (this.totalEntries / 10) + 2 > this.pageOffset / 10 ? (this.pageOffset / 10) + 2 : this.totalEntries / 10;
+        var maxValue = (this.totalEntries / 10) + 2 > this.pageOffset / 10 ? Math.ceil(this.totalEntries / 10) : (this.pageOffset / 10) + 2;
         var minValue = (this.pageOffset / 10) - 2 > 0 ? (this.pageOffset / 10) + 2 : 1;
         for (var i = 1; i <= maxValue; i++) {
             this.paginator.push(i);

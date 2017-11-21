@@ -62,7 +62,7 @@ export class ReportsComponent implements OnInit{
 
   private generatePaginator(){
     this.paginator = []; //20
-    let maxValue = (this.totalEntries/10)+2 > this.pageOffset/10 ? (this.pageOffset/10)+2 : this.totalEntries/10;
+    let maxValue = (this.totalEntries/10)+2 > this.pageOffset/10 ? Math.ceil(this.totalEntries/10) : (this.pageOffset/10)+2;
     let minValue = (this.pageOffset/10)-2 > 0 ? (this.pageOffset/10)+2 : 1;
 
     for(var i=1; i<=maxValue; i++){

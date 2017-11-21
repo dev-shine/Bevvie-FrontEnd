@@ -1926,7 +1926,7 @@ var SIDEBAR_TOGGLE_DIRECTIVES = [
 /***/ "../../../../../src/app/views/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"animated fadeIn\">\n  Hello World!\n</div>\n"
+module.exports = "<div class=\"animated fadeIn\">\n</div>\n"
 
 /***/ }),
 

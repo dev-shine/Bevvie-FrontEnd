@@ -21,7 +21,7 @@
             </tbody>
           </table>
           <ul class="pagination">
-            <li class="page-item" *ngFor="let n of paginator">
+            <li class="page-item" *ngFor="let n of paginator" [ngClass]="n == (pageOffset/10)+1 ? 'active': ''">
               <a class="page-link" (click)="getPage(n)">{{n}}</a>
             </li>
           </ul>
