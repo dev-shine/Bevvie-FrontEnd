@@ -22,6 +22,7 @@ export class VenueDetailComponent implements OnInit{
   customImage: any;
   error = '';
   success = '';
+  remove:boolean = false;
 
   modalForAbout:boolean = false;
 
@@ -155,10 +156,14 @@ export class VenueDetailComponent implements OnInit{
   }
 
   private deleteVenue() {
-    this.venueService.deleteVenue(this.venue._id)
-      .subscribe(response => {
-        this.router.navigate(['venues']);
-      });
+    if(this.remove) {
+      this.venueService.deleteVenue(this.venue._id)
+        .subscribe(response => {
+          this.router.navigate(['venues']);
+        });
+    }else{
+      this.remove = true;
+    }
   }
 
   private restartAlerts(){
