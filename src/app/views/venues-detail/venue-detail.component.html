@@ -67,14 +67,18 @@
             <label class="col-md-3 col-form-label" for="text-input">Coordinates</label>
             <div class="col-md-9">
               <div class="row">
-                <div class="form-group col-sm-4">
+                <div class="form-group col-sm-3">
                   <label for="city">Latitude</label>
                   <input class="form-control" id="city" placeholder="Latitude" maxlength="30" [(ngModel)]="venue.location.coordinates[0]" name="latitude{{venue._id}}">
                 </div>
-                <div class="form-group col-sm-4">
+                <div class="form-group col-sm-3">
                   <label for="postal-code">Longitude</label>
                   <input class="form-control" id="postal-code" placeholder="Longitude" maxlength="30" [(ngModel)]="venue.location.coordinates[1]" name="longitude{{venue._id}}">
                 </div>
+              </div>
+              <div class="form-group col-sm-3">
+                <label for="maps-link"> </label>
+                <a id="googleMapsLink" target="_blank" href="https://www.google.es/maps/dir//{{venue.location.coordinates[1]}},{{venue.location.coordinates[0]}}/@{{venue.location.coordinates[1]}},{{venue.location.coordinates[0]}},17z/data=!3m1!4b1">View on Google Maps</a>
               </div>
             </div>
           </div>
