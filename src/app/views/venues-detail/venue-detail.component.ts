@@ -99,7 +99,7 @@ export class VenueDetailComponent implements OnInit{
     }
   }
 
-  private fileChangeEvent(fileInput: any){
+  fileChangeEvent(fileInput: any){
     this.restartAlerts();
 
     let reader = new FileReader();
@@ -125,7 +125,7 @@ export class VenueDetailComponent implements OnInit{
         });
   }
 
-  private saveFormData(){
+  saveFormData(){
     this.restartAlerts();
 
     var schedule = [];
@@ -155,7 +155,7 @@ export class VenueDetailComponent implements OnInit{
         });
   }
 
-  private deleteVenue() {
+  deleteVenue() {
     if(this.remove) {
       this.venueService.deleteVenue(this.venue._id)
         .subscribe(response => {

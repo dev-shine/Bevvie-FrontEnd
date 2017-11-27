@@ -92,9 +92,7 @@ import { ReportService } from "./_services/reports.service";
     AppComponent,
     ...APP_CONTAINERS,
     ...APP_COMPONENTS,
-    ...APP_DIRECTIVES,
-    LoginComponent,
-    DashboardComponent
+    ...APP_DIRECTIVES
   ],
   providers: [{
     provide: LocationStrategy,

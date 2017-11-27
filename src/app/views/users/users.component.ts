@@ -58,7 +58,7 @@ export class UsersComponent implements OnInit{
           }
         });
   }
-  private getPageWithSort(filter: string){
+  getPageWithSort(filter: string){
     this.params.sort = {
       'field': filter,
       'order': this.checkOrder(filter)
@@ -79,7 +79,7 @@ export class UsersComponent implements OnInit{
         });
   }
 
-  private filterUsersByName(newFilter:string ){
+  filterUsersByName(newFilter:string ){
     this.params.name = newFilter;
     this.params.page = 1;
 
@@ -96,7 +96,7 @@ export class UsersComponent implements OnInit{
           }
         });
   }
-  private checkOrder(filter): string{
+  checkOrder(filter): string{
     switch(filter){
       case 'name':
         this.nameSort = this.nameSort == 'desc' ? 'asc' : 'desc';
@@ -114,7 +114,7 @@ export class UsersComponent implements OnInit{
         return 'asc';
     }
   }
-  private bindPage(response: any){
+  bindPage(response: any){
     this.currentPage = response.page;
     this.pageOffset = response.offset;
     this.totalEntries = response.total;
@@ -132,7 +132,7 @@ export class UsersComponent implements OnInit{
     }
   }
 
-  private userIsValidated(user:User): Boolean{
+  userIsValidated(user:User): Boolean{
     if(user.images.length > 0){
       for( var i = 0; i<=user.images.length-1; i++){
         if(user.images[i].validated == null){
@@ -157,7 +157,7 @@ export class UsersComponent implements OnInit{
 
     return codifiedparams
   }
-  private showUser(user: User){
+  showUser(user: User){
     //console.log(user)
   }
 }

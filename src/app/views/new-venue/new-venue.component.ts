@@ -51,7 +51,7 @@ export class NewVenueComponent implements OnInit{
     this.createFakeSchedule();
   }
 
-  private stringifyDays(day:number){
+  stringifyDays(day:number){
     switch(day){
       case 1:
         return 'Mon';
@@ -81,7 +81,7 @@ export class NewVenueComponent implements OnInit{
     }
   }
 
-  private fileChangeEvent(fileInput: any){
+  fileChangeEvent(fileInput: any){
     this.restartAlerts();
 
     let reader = new FileReader();
@@ -107,7 +107,7 @@ export class NewVenueComponent implements OnInit{
         });
   }
 
-  private saveFormData(){
+  saveFormData(){
     var schedule = [];
     this.schedule.map(item => {
       if(!item.isClose){

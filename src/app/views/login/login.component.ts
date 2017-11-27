@@ -9,7 +9,10 @@ import { AuthenticationService } from '../../_services/authentication.service';
 })
 
 export class LoginComponent implements OnInit {
-  model: any = {};
+  model: any = {
+    username: '',
+    password: ''
+  };
   loading = false;
   error = '';
 

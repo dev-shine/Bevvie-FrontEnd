@@ -62,7 +62,7 @@ export class VenuesComponent implements OnInit{
     }
   }
 
-  private filterVenuesByName(newFilter:string ){
+  filterVenuesByName(newFilter:string ){
     this.params.name = newFilter;
     this.params.page = 1;
 
@@ -86,7 +86,7 @@ export class VenuesComponent implements OnInit{
       });
   }
 
-  private getPageWithSort(filter: string){
+  getPageWithSort(filter: string){
     this.params.sort = {
       'field': filter,
       'order': this.checkOrder(filter)

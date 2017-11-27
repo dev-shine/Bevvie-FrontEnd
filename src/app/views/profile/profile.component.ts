@@ -62,7 +62,7 @@ export class ProfileComponent implements OnInit{
     });
   }
 
-  private getAge(dateString) {
+  getAge(dateString) {
     if(dateString != null) {
       var today = new Date();
       var birthDate = new Date(dateString);
@@ -76,11 +76,11 @@ export class ProfileComponent implements OnInit{
     return '';
   }
 
-  private cancelModalAction(){
+  cancelModalAction(){
     this.primaryModal.hide();
   }
 
-  private confirmModalAction(action: boolean, isAbout:boolean){
+  confirmModalAction(action: boolean, isAbout:boolean){
     this.primaryModal.hide();
     if(!isAbout) {
       switch (action) {
@@ -111,7 +111,7 @@ export class ProfileComponent implements OnInit{
       this.modalForAbout = false;
     }
   }
-  private saveFormData(){
+  saveFormData(){
     this.restartAlerts();
     this.userService.postUsersValidate(this.user._id, this.validationElements)
       .subscribe(response => {
@@ -127,14 +127,14 @@ export class ProfileComponent implements OnInit{
           this.error = error.localizedError;
         });
   }
-  private changeBanState(){
+  changeBanState(){
     if(this.user.banned){
       this.unBanUser();
     }else{
       this.banUser();
     }
   }
-  private banUser(){
+  banUser(){
     this.restartAlerts();
     this.userService.postUsersBan(this.user._id)
       .subscribe(response => {
@@ -150,7 +150,7 @@ export class ProfileComponent implements OnInit{
           this.error = error.localizedError;
         });
   }
-  private unBanUser(){
+  unBanUser(){
     this.restartAlerts();
     this.userService.postUsersUpdate(this.user._id, {banned:false})
       .subscribe(response => {
@@ -166,7 +166,7 @@ export class ProfileComponent implements OnInit{
           this.error = error.localizedError;
         });
   }
-  private restartAlerts(){
+  restartAlerts(){
     this.error = '';
     this.success = '';
   }
