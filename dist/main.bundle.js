@@ -150,7 +150,7 @@ var AuthenticationService = (function () {
     function AuthenticationService(http) {
         this.http = http;
         this.develop = false;
-        this.apiBaseUrl = this.develop ? 'http://develapps.hopto.org:82/api/v1/' : 'http://35.176.99.13/';
+        this.apiBaseUrl = this.develop ? 'http://develapps.hopto.org:82/api/v1/' : 'http://localhost/';
         this.apiBaseToken = '0948cb8e2637cf5f5b6ea6353733d1fd';
         // set token if saved in local storage
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
