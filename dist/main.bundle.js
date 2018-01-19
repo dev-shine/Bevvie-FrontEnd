@@ -149,7 +149,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var AuthenticationService = (function () {
     function AuthenticationService(http) {
         this.http = http;
-        this.develop = true;
+        this.develop = false;
         this.apiBaseUrl = this.develop ? 'http://develapps.hopto.org:82/api/v1/' : 'http://35.176.99.13/api/v1/';
         this.apiBaseToken = '0948cb8e2637cf5f5b6ea6353733d1fd';
         // set token if saved in local storage
