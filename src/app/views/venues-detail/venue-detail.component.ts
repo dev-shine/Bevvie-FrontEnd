@@ -40,7 +40,6 @@ export class VenueDetailComponent implements OnInit{
       let venueId = params['venueId'];
       this.venueService.getVenueById(venueId)
         .subscribe(response => {
-          console.log(response);
           this.venue = response;
           this.header.nativeElement.innerHTML = this.venue.name;
 
@@ -111,7 +110,6 @@ export class VenueDetailComponent implements OnInit{
     reader.readAsDataURL(fileInput.target.files[0]);
     this.venueService.postNewImage(fileInput.target.files[0])
       .subscribe(response => {
-        console.log(response);
           this.venue.image = response;
           this.success = 'Venue image updated correctly';
         },
