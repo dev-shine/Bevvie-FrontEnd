@@ -77,6 +77,19 @@
               </div>
             </div>
           </div>
+          <div class="form-group row">
+            <label class="col-md-3 col-form-label" for="text-input">Radius</label>
+            <div class="col-md-9">
+              <div class="row">
+                <div class="form-group col-sm-12">
+                  <label for="city">Radius where a user can check in (meters)</label>
+                </div>
+                <div class="col-sm-3">
+                  <input class="form-control" id="city" placeholder="Radius" maxlength="30" [(ngModel)]="params.radius" name="radius0">
+                </div>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
       <div class="card-footer">
