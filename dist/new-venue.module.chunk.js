@@ -80,7 +80,7 @@ var NewVenueComponent = (function () {
         this.params = {
             name: '',
             image: '',
-            radius: 30,
+            radius: '',
             location: {
                 type: 'Point',
                 coordinates: []
