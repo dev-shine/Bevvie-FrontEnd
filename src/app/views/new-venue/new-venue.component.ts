@@ -20,7 +20,7 @@ export class NewVenueComponent implements OnInit{
   params = {
     name : '',
     image: '',
-    radius: 0,
+    radius: 30,
     location: {
       type: 'Point',
       coordinates:[]
