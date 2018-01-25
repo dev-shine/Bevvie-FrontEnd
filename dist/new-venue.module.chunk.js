@@ -78,9 +78,9 @@ var NewVenueComponent = (function () {
         this.modalService = modalService;
         this.router = router;
         this.params = {
-            name: '',
-            image: '',
-            radius: '',
+            name: null,
+            image: null,
+            radius: null,
             location: {
                 type: 'Point',
                 coordinates: []
@@ -157,6 +157,7 @@ var NewVenueComponent = (function () {
             }
         });
         this.params.schedule = schedule;
+        this.cleanParameters(this.params);
         this.venueService.postNewVenue(this.params)
             .subscribe(function (response) {
             _this.router.navigate(['venues']);
@@ -172,6 +173,24 @@ var NewVenueComponent = (function () {
     NewVenueComponent.prototype.restartAlerts = function () {
         this.error = '';
         this.success = '';
+    };
+    /*
+   * Fix a dirty code that insert empty fields on params object
+   * @params obj
+   * @return a cleaned object without empty fields
+   */
+    NewVenueComponent.prototype.cleanParameters = function (obj) {
+        var propNames = Object.getOwnPropertyNames(obj);
+        for (var i = 0; i < propNames.length; i++) {
+            var propName = propNames[i];
+            if (obj[propName] === null || obj[propName] === undefined) {
+                delete obj[propName];
+            }
+            else if (obj[propName] === "") {
+                delete obj[propName];
+            }
+        }
+        return obj;
     };
     return NewVenueComponent;
 }());

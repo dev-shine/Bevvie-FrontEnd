@@ -18,9 +18,9 @@ export class NewVenueComponent implements OnInit{
   @ViewChild('header') header: ElementRef;
 
   params = {
-    name : '',
-    image: '',
-    radius: '',
+    name : null,
+    image: null,
+    radius: null,
     location: {
       type: 'Point',
       coordinates:[]
@@ -116,7 +116,7 @@ export class NewVenueComponent implements OnInit{
     });
     this.params.schedule = schedule;
 
-
+    this.cleanParameters(this.params);
     this.venueService.postNewVenue(this.params)
       .subscribe(response => {
           this.router.navigate(['venues'])
@@ -135,5 +135,24 @@ export class NewVenueComponent implements OnInit{
     this.error = '';
     this.success = '';
   }
+
+  /*
+ * Fix a dirty code that insert empty fields on params object
+ * @params obj
+ * @return a cleaned object without empty fields
+ */
+  public cleanParameters(obj: {}) {
+    const propNames = Object.getOwnPropertyNames(obj);
+    for (let i = 0; i < propNames.length; i++) {
+      const propName = propNames[i];
+      if (obj[propName] === null || obj[propName] === undefined ) {
+        delete obj[propName];
+      }else if (obj[propName] === "") {
+        delete obj[propName];
+      }
+    }
+    return obj;
+  }
+
 }
 
