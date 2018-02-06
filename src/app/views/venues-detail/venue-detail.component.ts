@@ -92,7 +92,7 @@ export class VenueDetailComponent implements OnInit{
       }
     }
     for(let day of this.schedule){
-      if(day.isClose == null){
+      if(day.isClose === null){
         this.schedule[i]['isClose'] = false;
       }
     }
@@ -134,11 +134,12 @@ export class VenueDetailComponent implements OnInit{
     });
     let params = {
       name: this.venue.name,
-      image: this.venue.image._id,
+      image: this.venue.image !== null && this.venue.image !== undefined ? this.venue.image._id : null,
       radius: this.venue.radius,
       location: this.venue.location,
       schedule: schedule
     };
+    this.cleanParameters(params);
     this.venueService.postVenueUpdate(this.venue._id, params)
       .subscribe(response => {
           this.success = 'Venue data has been updated correctly';
@@ -168,4 +169,23 @@ export class VenueDetailComponent implements OnInit{
     this.error = '';
     this.success = '';
   }
+
+  /*
+* Fix a dirty code that insert empty fields on params object
+* @params obj
+* @return a cleaned object without empty fields
+*/
+  public cleanParameters(obj: {}) {
+    const propNames = Object.getOwnPropertyNames(obj);
+    for (let i = 0; i < propNames.length; i++) {
+      const propName = propNames[i];
+      if (obj[propName] === null || obj[propName] === undefined ) {
+        delete obj[propName];
+      }else if (obj[propName] === "") {
+        delete obj[propName];
+      }
+    }
+    return obj;
+  }
+
 }

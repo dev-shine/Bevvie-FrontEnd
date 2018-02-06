@@ -110,8 +110,10 @@ export class NewVenueComponent implements OnInit{
   saveFormData(){
     var schedule = [];
     this.schedule.map(item => {
-      if(!item.isClose){
-        schedule.push(item);
+      if(item.isClose !== null && item.isClose !== undefined) {
+        if (!item.isClose) {
+          schedule.push(item);
+        }
       }
     });
     this.params.schedule = schedule;
