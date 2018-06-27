@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import {Http, Headers, Response, RequestOptions} from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class AuthenticationService {
   public token: string;
-  public develop: boolean = true;
-  public apiBaseUrl: string = this.develop ? 'http://develapps.hopto.org:82/api/v1/' : 'http://35.176.99.13/api/v1/';
-  public apiBaseToken: string = '0948cb8e2637cf5f5b6ea6353733d1fd';
+  public apiBaseUrl: string = environment.apiUrl;
+  public apiBaseToken: string = environment.token;
 
 
   constructor(private http: Http) {

@@ -134,6 +134,7 @@ var navigation = [
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__("../../../http/@angular/http.es5.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__("../../../../rxjs/add/operator/map.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__environments_environment__ = __webpack_require__("../../../../../src/environments/environment.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -146,12 +147,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var AuthenticationService = (function () {
     function AuthenticationService(http) {
         this.http = http;
-        this.develop = true;
-        this.apiBaseUrl = this.develop ? 'http://develapps.hopto.org:82/api/v1/' : 'http://35.176.99.13/api/v1/';
-        this.apiBaseToken = '0948cb8e2637cf5f5b6ea6353733d1fd';
+        this.apiBaseUrl = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].apiUrl;
+        this.apiBaseToken = __WEBPACK_IMPORTED_MODULE_3__environments_environment__["a" /* environment */].token;
         // set token if saved in local storage
         var currentUser = JSON.parse(localStorage.getItem('currentUser'));
         this.token = currentUser && currentUser.token;
@@ -2068,7 +2069,10 @@ var _a, _b;
 // The list of which env maps to which file can be found in `angular-cli.json`.
 // The file contents for the current environment will overwrite these during build.
 var environment = {
-    production: false
+    production: false,
+    name: "dev",
+    apiUrl: "http://develapps.hopto.org:82/api/v1/",
+    token: "0948cb8e2637cf5f5b6ea6353733d1fd"
 };
 //# sourceMappingURL=environment.js.map
 

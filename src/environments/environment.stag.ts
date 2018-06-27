@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  name:"dev",
-  apiUrl: "http://develapps.hopto.org:82/api/v1/",
+  name:"stag",
+  apiUrl: "http://35.176.99.13/api/v1/",
   token: "0948cb8e2637cf5f5b6ea6353733d1fd"
 };
