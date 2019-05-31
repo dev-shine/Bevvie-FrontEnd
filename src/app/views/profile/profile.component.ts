@@ -105,7 +105,7 @@ export class ProfileComponent implements OnInit{
       this.validationElements['about_validated'] = action;
       this.user.about_validated = action;
       if(!action) {
-        this.user.about = '';
+        // this.user.about = '';
         this.validationElements['about'] = '';
       }
       this.modalForAbout = false;
